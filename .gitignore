@@ -1,1 +1,10 @@
-/out/production/Initium/META-INF/Initium.kotlin_module
+# Ignore All
+*
+
+# Include Directories
+!src/*
+!resources/*
+
+# Include Files
+!.gitignore
+
