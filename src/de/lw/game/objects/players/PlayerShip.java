@@ -1,10 +1,12 @@
-package leonard.wolf.gameobjects.players;
+package de.lw.game.objects.players;
 
-import leonard.wolf.gamecore.ImageRepository;
-import leonard.wolf.gameobjects.projectiles.FriendlyProjectile;
-import leonard.wolf.gameobjects.projectiles.HostileProjectile;
+import de.lw.game.core.ImageRepository;
+import de.lw.game.objects.projectiles.FriendlyProjectile;
+import de.lw.game.objects.projectiles.HostileProjectile;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 public class PlayerShip extends BaseShip {
 
@@ -20,24 +22,24 @@ public class PlayerShip extends BaseShip {
         setAmmo(10);
         setShield(10);
         img = ImageRepository.getInstance().loadImage("/Player/Spaceship.png");
-        img = img.getScaledInstance((int)getSizeX(), (int)getSizeY(), Image.SCALE_SMOOTH);
+        img = img.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 
     @Override
     public void draw(Graphics2D g2d) {
         g2d.setColor(shieldColor);
-        g2d.fillOval((int) getPosX() -10, (int) getPosY() -5, 100, 40);
+        g2d.fillOval((int) getPosX() - 10, (int) getPosY() - 5, 100, 40);
         g2d.drawImage(img, (int) getPosX(), (int) getPosY(), null);
     }
 
     public void ifHit() {
-        if(getShield() > 7) {
+        if (getShield() > 7) {
             shieldColor = Color.GREEN;
-        }else if(getShield() > 4) {
+        } else if (getShield() > 4) {
             shieldColor = Color.ORANGE;
-        }else if(getShield() > 1) {
+        } else if (getShield() > 1) {
             shieldColor = Color.RED;
-        }else if(getShield() < 1) {
+        } else if (getShield() < 1) {
             shieldColor = Color.BLACK;
         }
     }
@@ -52,8 +54,9 @@ public class PlayerShip extends BaseShip {
         return inBounds(p.getPosX(), p.getPosY(), p.getSizeX(), p.getSizeY());
     }
 
-    public FriendlyProjectile shoot() {
-        return new FriendlyProjectile((int)getPosXMiddle(), (int)getPosYMiddle());
+    @Override
+    public void shoot() {
+        shotsFired.add(new FriendlyProjectile((int) getPosXMiddle(), (int) getPosYMiddle()));
     }
 
     public boolean isAlive() {
@@ -75,4 +78,5 @@ public class PlayerShip extends BaseShip {
     public void setShield(double shield) {
         this.shield = shield;
     }
+
 }

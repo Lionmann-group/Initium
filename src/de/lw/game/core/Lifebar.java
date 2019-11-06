@@ -1,6 +1,7 @@
-package leonard.wolf.gamecore;
+package de.lw.game.core;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 public class Lifebar {
 
@@ -13,7 +14,7 @@ public class Lifebar {
     Image greenBar;
     Image redBar;
 
-    public Lifebar(double positionX ,double mainPositionY, double sizeX, double maxHp) {
+    public Lifebar(double positionX, double mainPositionY, double sizeX, double maxHp) {
         this.positionX = positionX;
         this.movedPositionY = mainPositionY + 40;
         this.sizeX = sizeX;
@@ -22,21 +23,23 @@ public class Lifebar {
         seperator = (int) sizeX;
         greenBar = ImageRepository.getInstance().loadImage("/Colors/Blue.png");
         redBar = ImageRepository.getInstance().loadImage("/Colors/Red.png");
-        greenBar = greenBar.getScaledInstance((int)getSizeX(), (int)getSizeY(), Image.SCALE_SMOOTH);
-        redBar = redBar.getScaledInstance((int)getSizeX(), (int)getSizeY(), Image.SCALE_SMOOTH);
+        greenBar = greenBar.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
+        redBar = redBar.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 
     public void draw(Graphics2D g2d) {
         g2d.drawImage(redBar, (int) getPositionX(), (int) getMovedPositionY(), null);
         g2d.drawImage(greenBar, (int) getPositionX(), (int) getMovedPositionY(), null);
     }
-    public void sync(double positionX ,double mainPositionY) {
+
+    public void sync(double positionX, double mainPositionY) {
         this.positionX = positionX;
         this.movedPositionY = mainPositionY - 30;
     }
+
     public void lifebarLoseHp(int dmg) {
         seperator = seperator - dmg;
-        greenBar = greenBar.getScaledInstance(seperator + 1, (int)getSizeY(), Image.SCALE_SMOOTH);
+        greenBar = greenBar.getScaledInstance(seperator + 1, (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 
     public double getPositionX() {

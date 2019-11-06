@@ -1,9 +1,11 @@
-package leonard.wolf.gameobjects.players;
+package de.lw.game.objects.players;
 
+import de.lw.game.objects.projectiles.BaseProjectile;
 
-import leonard.wolf.gameobjects.projectiles.BaseProjectile;
-
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BaseShip {
 
@@ -15,6 +17,8 @@ public class BaseShip {
     double sizeY;
     double speedX;
     double speedY;
+
+    protected final List<BaseProjectile> shotsFired = new ArrayList<>(64);
 
     public BaseShip(double posX, double posY) {
         this.posX = posX;
@@ -35,12 +39,15 @@ public class BaseShip {
     public boolean outOfAreaRight(double posX, double width) {
         return getPosX() + getSizeX() >= width + posX;
     }
+
     public boolean outOfAreaLeft(double posX) {
         return getPosX() <= posX;
     }
+
     public boolean outOfAreaBottom(double posY, double height) {
         return getPosY() + getSizeY() >= height + posY;
     }
+
     public boolean outOfAreaTop(double posY) {
         return getPosY() <= posY;
     }
@@ -73,6 +80,12 @@ public class BaseShip {
 
     public void setHp(double hp) {
         this.hp = hp;
+    }
+
+    public void shoot() {}
+
+    public List<BaseProjectile> getShotsFired() {
+        return shotsFired;
     }
 
     public double getPosX() {

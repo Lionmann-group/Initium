@@ -1,9 +1,8 @@
-package leonard.wolf.gameobjects.projectiles;
+package de.lw.game.objects.projectiles;
 
+import de.lw.game.core.ImageRepository;
 
-import leonard.wolf.gamecore.ImageRepository;
-
-import java.awt.*;
+import java.awt.Image;
 
 public class FollowProjectile extends HostileProjectile {
 
@@ -16,7 +15,7 @@ public class FollowProjectile extends HostileProjectile {
         setSizeY(30);
         setSpeedX(-4);
         img = ImageRepository.getInstance().loadImage("/Objects/Energyball.png");
-        img = img.getScaledInstance((int)getSizeX(), (int)getSizeY(), Image.SCALE_SMOOTH);
+        img = img.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 
     @Override
@@ -30,7 +29,7 @@ public class FollowProjectile extends HostileProjectile {
     }
 
     @Override
-    public void shipPosition(double x ,double y) {
+    public void shipPosition(double x, double y) {
         followerX = x;
         followerY = y;
     }

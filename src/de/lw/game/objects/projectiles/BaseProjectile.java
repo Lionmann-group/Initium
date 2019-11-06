@@ -1,15 +1,13 @@
-package leonard.wolf.gameobjects.projectiles;
+package de.lw.game.objects.projectiles;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
-public class BaseProjectile {
+public abstract class BaseProjectile {
 
     double posX;
     double posY;
-    double SizeX;
-    double SizeY;
-    double speedX;
-    double speedY;
+    private double sizeX, sizeY, speedX, speedY;
     Image img;
 
     public BaseProjectile(double posX, double posY) {
@@ -56,19 +54,19 @@ public class BaseProjectile {
     }
 
     public double getSizeX() {
-        return SizeX;
+        return sizeX;
     }
 
     public void setSizeX(double sizeX) {
-        SizeX = sizeX;
+        this.sizeX = sizeX;
     }
 
     public double getSizeY() {
-        return SizeY;
+        return sizeY;
     }
 
     public void setSizeY(double sizeY) {
-        SizeY = sizeY;
+        this.sizeY = sizeY;
     }
 
     public double getSpeedX() {
@@ -79,7 +77,6 @@ public class BaseProjectile {
         this.speedX = speedX;
     }
 
-    public void shipPosition(double x, double y) {
+    public abstract void shipPosition(double x, double y);
 
-    }
 }

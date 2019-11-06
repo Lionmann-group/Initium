@@ -1,10 +1,10 @@
-package leonard.wolf.gameobjects.players;
+package de.lw.game.objects.players;
 
 
-import leonard.wolf.gamecore.ImageRepository;
-import leonard.wolf.gameobjects.projectiles.HostileProjectile;
+import de.lw.game.core.ImageRepository;
+import de.lw.game.objects.projectiles.HostileProjectile;
 
-import java.awt.*;
+import java.awt.Image;
 
 public class EnemyShip extends BaseEnemy {
 
@@ -17,23 +17,24 @@ public class EnemyShip extends BaseEnemy {
         setSizeY(40);
         setHp(1);
         setSpeedX(-1.5);
-        if(Math.random() * 2 == 1) {
+        if (Math.random() * 2 == 1) {
             setSpeedY(0.4);
-        }else {
+        } else {
             setSpeedY(-0.4);
         }
         img = ImageRepository.getInstance().loadImage("/Enemies/Enemyship.png");
-        img = img.getScaledInstance((int)getSizeX(), (int)getSizeY(), Image.SCALE_SMOOTH);
+        img = img.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 
     @Override
-    public HostileProjectile[] shoot() {
+    public void shoot() {
         shootDelay++;
+
         if (shootDelay == 100) {
             shootDelay = 0;
-            return new HostileProjectile[] { new HostileProjectile((int) getPosXMiddle(), (int) getPosYMiddle()) };
+
+            shotsFired.add(new HostileProjectile((int) getPosXMiddle(), (int) getPosYMiddle()));
         }
-        return null;
     }
 
     @Override
@@ -44,9 +45,10 @@ public class EnemyShip extends BaseEnemy {
         if (outOfArea(0, 21, 2000, 548)) {
             setSpeedY(getSpeedY() * (-1));
         }
-        if(turn == 150) {
+        if (turn == 150) {
             setSpeedY(getSpeedY() * (-1));
             turn = 0;
         }
     }
+
 }

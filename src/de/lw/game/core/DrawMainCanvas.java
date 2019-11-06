@@ -1,23 +1,24 @@
-package leonard.wolf.gamecore;
+package de.lw.game.core;
 
-import leonard.wolf.gameobjects.players.BaseEnemy;
-import leonard.wolf.gameobjects.players.PlayerShip;
-import leonard.wolf.gameobjects.projectiles.BaseProjectile;
-import leonard.wolf.gameobjects.projectiles.FriendlyProjectile;
-import leonard.wolf.gameobjects.projectiles.HostileProjectile;
+import de.lw.game.objects.players.BaseEnemy;
+import de.lw.game.objects.players.PlayerShip;
+import de.lw.game.objects.projectiles.BaseProjectile;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 
 public class DrawMainCanvas extends JFrame {
-
-    ImageRepository repository = ImageRepository.getInstance();
 
     public static final int CANVAS_WIDTH = 1200;
     public static final int CANVAS_HEIGHT = 700;
@@ -30,9 +31,7 @@ public class DrawMainCanvas extends JFrame {
     private GameOverlay gameOverlay;
     private EnemySpawner enemySpawner;
     private PlayerShip playerShip;
-    private List<HostileProjectile> hostileProjectiles;
-    private List<FriendlyProjectile> friendlyProjectiles;
-    private List<BaseEnemy> baseEnemies;
+    private List<BaseEnemy> enemies;
 
     private DrawCanvas canvas;
 
@@ -40,12 +39,9 @@ public class DrawMainCanvas extends JFrame {
 
     public DrawMainCanvas() {
         gameOverlay = new GameOverlay();
-        enemySpawner = new EnemySpawner(gameOverlay.gamePanel.getPosX(), gameOverlay.gamePanel.getPosY(),
-                gameOverlay.gamePanel.getSizeX(), gameOverlay.gamePanel.getSizeY());
+        enemySpawner = new EnemySpawner(gameOverlay.gamePanel.getPosX(), gameOverlay.gamePanel.getPosY(), gameOverlay.gamePanel.getSizeX(), gameOverlay.gamePanel.getSizeY());
         playerShip = new PlayerShip(200, 300);
-        hostileProjectiles = new LinkedList<>();
-        friendlyProjectiles = new LinkedList<>();
-        baseEnemies = new LinkedList<>();
+        enemies = new ArrayList<>(64);
 
         setResizable(false);
 
@@ -119,19 +115,26 @@ public class DrawMainCanvas extends JFrame {
                         System.out.println("You lost");
                         System.exit(0);
                     }
-                    moving();
+
+                    move();
+
                     if (spawnProjectileOnNextCycle) {
-                        friendlyProjectiles.add(playerShip.shoot());
+                        playerShip.shoot();
+
                         spawnProjectileOnNextCycle = false;
                     }
+
                     gameOverlay.overchargebarAnimation(playerShip.getAmmo());
+
                     ammoDelay();
                     enemySpawn();
                     enemyShoots();
                     collision();
-                    for (int i = 0; i < baseEnemies.size(); i++) {
-                        System.out.println(baseEnemies.get(i).getHp());
-                    }
+
+                    /*for (BaseEnemy baseEnemy : baseEnemies) {
+                        System.out.println(baseEnemy.getHp());
+                    }*/
+
                     canvas.paint(strategy.getDrawGraphics());
 
                     while (System.nanoTime() < lastLoopTime + 1_000_000_000 / gamespeed) {
@@ -153,11 +156,13 @@ public class DrawMainCanvas extends JFrame {
                 }
             }
         };
+
         th1.start();
     }
 
     private void ammoDelay() {
         shootTimer++;
+
         if (playerShip.getAmmo() < 10 && shootTimer >= 45) {
             playerShip.setAmmo(playerShip.getAmmo() + 1);
             shootTimer = 0;
@@ -166,106 +171,127 @@ public class DrawMainCanvas extends JFrame {
 
     private void enemySpawn() {
         enemySpawner.setEnemyTimer(enemySpawner.getEnemyTimer() + 1);
-        if (enemySpawner.spawnAsteriodEnemy() != null) {
-            baseEnemies.add(enemySpawner.spawnAsteriodEnemy());
+
+        if (enemySpawner.spawnAsteroidEnemy() != null) {
+            enemies.add(enemySpawner.spawnAsteroidEnemy());
         }
+
         if (enemySpawner.spawnLvL1() != null && !enemySpawner.lvl1Finished) {
-            baseEnemies.addAll(Arrays.asList(enemySpawner.spawnLvL1()));
+            enemies.addAll(Arrays.asList(enemySpawner.spawnLvL1()));
         }
     }
 
-    private void moving() {
-        if (!friendlyProjectiles.isEmpty()) {
-            for (int i = 0; i < friendlyProjectiles.size(); i++) {
-                BaseProjectile p = friendlyProjectiles.get(i);
-                p.move();
-                if (p.outOfMap(gameOverlay.gamePanel.getPosX(), gameOverlay.gamePanel.getPosY(),
-                        gameOverlay.gamePanel.getSizeX(), gameOverlay.gamePanel.getSizeY())) {
-                    friendlyProjectiles.remove(p);
-                    i--;
+    private void move() {
+        if (enemies.size() > 0) {
+            final Iterator<BaseEnemy> enemyIterator = enemies.iterator();
+
+            while (enemyIterator.hasNext()) {
+                final BaseEnemy enemy = enemyIterator.next();
+
+                moveProjectiles(enemy.getShotsFired());
+
+                enemy.move();
+
+                if (enemy.leftOutOfMap(gameOverlay.gamePanel.getPosX())) {
+                    enemyIterator.remove();
                 }
             }
         }
-        if (!hostileProjectiles.isEmpty()) {
-            for (int i = 0; i < hostileProjectiles.size(); i++) {
-                BaseProjectile p = hostileProjectiles.get(i);
-                p.shipPosition(playerShip.getPosXMiddle(), playerShip.getPosYMiddle());
-                p.move();
-                if (p.outOfMap(gameOverlay.gamePanel.getPosX(), gameOverlay.gamePanel.getPosY(),
-                        gameOverlay.gamePanel.getSizeX(), gameOverlay.gamePanel.getSizeY())) {
-                    hostileProjectiles.remove(p);
-                    i--;
-                }
-            }
-        }
-        if (!baseEnemies.isEmpty()) {
-            for (int i = 0; i < baseEnemies.size(); i++) {
-                BaseEnemy b = baseEnemies.get(i);
-                b.move();
-                if (b.leftOutOfMap(gameOverlay.gamePanel.getPosX())) {
-                    baseEnemies.remove(b);
-                    i--;
-                }
-            }
-        }
+
+        moveProjectiles(playerShip.getShotsFired());
         playerShip.move();
+
         playerShipOutOfBounds();
     }
 
+    private void moveProjectiles(final List<BaseProjectile> projectiles) {
+        if (projectiles.size() > 0) {
+            final Iterator<BaseProjectile> projectileIterator = projectiles.iterator();
+
+            while (projectileIterator.hasNext()) {
+                final BaseProjectile projectile = projectileIterator.next();
+
+                projectile.shipPosition(playerShip.getPosXMiddle(), playerShip.getPosYMiddle());
+                projectile.move();
+
+                if (projectile.outOfMap(gameOverlay.gamePanel.getPosX(),
+                        gameOverlay.gamePanel.getPosY(),
+                        gameOverlay.gamePanel.getSizeX(),
+                        gameOverlay.gamePanel.getSizeY())
+                ) {
+                    projectileIterator.remove();
+                }
+            }
+        }
+    }
+
     public void playerShipOutOfBounds() {
+        int gamePanelPosX = (int) gameOverlay.gamePanel.getPosX();
+        int gamePanelPosY = (int) gameOverlay.gamePanel.getPosY();
+        int gamePanelSizeX = (int) gameOverlay.gamePanel.getSizeX();
+        int gamePanelSizeY = (int) gameOverlay.gamePanel.getSizeY();
 
-        int gamepanelPosX = (int) gameOverlay.gamePanel.getPosX();
-        int gamepanelPosY = (int) gameOverlay.gamePanel.getPosY();
-        int gamepanelSizeX = (int) gameOverlay.gamePanel.getSizeX();
-        int gamepanelSizeY = (int) gameOverlay.gamePanel.getSizeY();
+        if (playerShip.outOfAreaLeft(gamePanelPosX)) {
+            playerShip.setPosX(gamePanelPosX + 1);
+        }
 
-        if (playerShip.outOfAreaLeft(gamepanelPosX)) {
-            playerShip.setPosX(gamepanelPosX + 1);
+        if (playerShip.outOfAreaRight(gamePanelPosX, gamePanelSizeX)) {
+            playerShip.setPosX(gamePanelPosX + gamePanelSizeX - playerShip.getSizeX() - 1);
         }
-        if (playerShip.outOfAreaRight(gamepanelPosX, gamepanelSizeX)) {
-            playerShip.setPosX(gamepanelPosX + gamepanelSizeX - playerShip.getSizeX() - 1);
+
+        if (playerShip.outOfAreaTop(gamePanelPosY)) {
+            playerShip.setPosY(gamePanelPosY + 1);
         }
-        if (playerShip.outOfAreaTop(gamepanelPosY)) {
-            playerShip.setPosY(gamepanelPosY + 1);
-        }
-        if (playerShip.outOfAreaBottom(gamepanelPosY, gamepanelSizeY)) {
-            playerShip.setPosY(gamepanelPosY + gamepanelSizeY - playerShip.getSizeY() - 1);
+
+        if (playerShip.outOfAreaBottom(gamePanelPosY, gamePanelSizeY)) {
+            playerShip.setPosY(gamePanelPosY + gamePanelSizeY - playerShip.getSizeY() - 1);
         }
     }
 
     private void collision() {
-        for (int i = 0; i < baseEnemies.size(); i++) {
-            BaseEnemy p = baseEnemies.get(i);
-            for (int j = 0; j < friendlyProjectiles.size(); j++) {
-                BaseProjectile b = friendlyProjectiles.get(j);
-                if (p.hitByProjectile(b)) {
-                    p.isHit();
-                    p.setHp(p.getHp() - 1);
-                    if (p.getHp() <= 0) {
-                        p.onDeath();
-                        baseEnemies.remove(i);
+        final Iterator<BaseEnemy> enemyIterator = enemies.iterator();
+
+        enemyCheck : while (enemyIterator.hasNext()) {
+            final BaseEnemy enemy = enemyIterator.next();
+
+            final Iterator<BaseProjectile> playerProjectileIterator = playerShip.getShotsFired().iterator();
+
+            while (playerProjectileIterator.hasNext()) {
+                final BaseProjectile projectile = playerProjectileIterator.next();
+
+                if (enemy.hitByProjectile(projectile)) {
+                    playerProjectileIterator.remove();
+
+                    enemy.isHit();
+                    enemy.setHp(enemy.getHp() - 1);
+                    if (enemy.getHp() <= 0) {
+                        enemy.onDeath();
+
+                        enemyIterator.remove();
+
                         score += 10;
+
+                        continue enemyCheck;
                     }
-                    friendlyProjectiles.remove(j);
-                    i--;
-                    break;
                 }
             }
-        }
-        for (int i = 0; i < baseEnemies.size(); i++) {
-            BaseEnemy p = baseEnemies.get(i);
-            if (playerShip.hitByEnemy(p)) {
-                baseEnemies.remove(i);
-                playerIsHit();
-                i--;
+
+            final Iterator<BaseProjectile> enemyProjectileIterator = enemy.getShotsFired().iterator();
+
+            while (enemyProjectileIterator.hasNext()) {
+                final BaseProjectile projectile = enemyProjectileIterator.next();
+
+                if (playerShip.hitByProjectile(projectile)) {
+                    enemyProjectileIterator.remove();
+
+                    playerIsHit();
+                }
             }
-        }
-        for (int i = 0; i < hostileProjectiles.size(); i++) {
-            HostileProjectile p = hostileProjectiles.get(i);
-            if (playerShip.hitByProjectile(p)) {
-                hostileProjectiles.remove(i);
+
+            if (playerShip.hitByEnemy(enemy)) {
+                enemyIterator.remove();
+
                 playerIsHit();
-                i--;
             }
         }
     }
@@ -280,12 +306,8 @@ public class DrawMainCanvas extends JFrame {
     }
 
     private void enemyShoots() {
-        HostileProjectile[] spawnedProjectiles;
-        for (BaseEnemy p : baseEnemies) {
-            spawnedProjectiles = p.shoot();
-            if (spawnedProjectiles != null) {
-                hostileProjectiles.addAll(Arrays.asList(spawnedProjectiles));
-            }
+        for (BaseEnemy enemy : enemies) {
+            enemy.shoot();
         }
     }
 
@@ -294,26 +316,33 @@ public class DrawMainCanvas extends JFrame {
         @Override
         public void paint(Graphics g) {
             super.paint(g);
+
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(Color.WHITE);
+
             gameOverlay.draw(g2d);
             playerShip.draw(g2d);
+
             // g2d.drawString("LVL: " + Integer.toString(enemySpawner.getLvl()), 100, 35);
             g2d.setColor(Color.WHITE);
             g2d.drawString("Score: " + score, 25, 35);
-            for (BaseEnemy p : baseEnemies) {
-                p.draw(g2d);
+
+            for (final BaseProjectile projectile : playerShip.getShotsFired()) {
+                projectile.draw(g2d);
             }
-            for (FriendlyProjectile p : friendlyProjectiles) {
-                p.draw(g2d);
+
+            for (BaseEnemy enemy : enemies) {
+                enemy.draw(g2d);
+
+                for (final BaseProjectile projectile : enemy.getShotsFired()) {
+                    projectile.draw(g2d);
+                }
             }
-            for (HostileProjectile p : hostileProjectiles) {
-                p.draw(g2d);
-            }
+
             g2d.setColor(Color.WHITE);
             g2d.drawString(Integer.toString(measuredFps), 10, CANVAS_HEIGHT - 20);
-            getBufferStrategy().show();
 
+            getBufferStrategy().show();
         }
 
     }
