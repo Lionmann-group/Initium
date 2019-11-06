@@ -1,8 +1,8 @@
-package leonard.wolf.gameobjects.players;
+package de.lw.game.objects.players;
 
-import leonard.wolf.gamecore.ImageRepository;
-import leonard.wolf.gameobjects.projectiles.FriendlyProjectile;
-import leonard.wolf.gameobjects.projectiles.HostileProjectile;
+import de.lw.game.objects.projectiles.FriendlyProjectile;
+import de.lw.game.objects.projectiles.HostileProjectile;
+import de.lw.game.core.ImageRepository;
 
 import java.awt.*;
 

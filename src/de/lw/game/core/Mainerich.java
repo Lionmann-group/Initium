@@ -1,4 +1,4 @@
-package leonard.wolf.gamecore;
+package de.lw.game.core;
 
 import javax.swing.*;
 

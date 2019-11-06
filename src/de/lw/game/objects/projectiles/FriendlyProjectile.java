@@ -1,6 +1,6 @@
-package leonard.wolf.gameobjects.projectiles;
+package de.lw.game.objects.projectiles;
 
-import leonard.wolf.gamecore.ImageRepository;
+import de.lw.game.core.ImageRepository;
 
 import java.awt.*;
 

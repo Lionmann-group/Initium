@@ -1,7 +1,7 @@
-package leonard.wolf.gameobjects.players;
+package de.lw.game.objects.players;
 
 
-import leonard.wolf.gameobjects.projectiles.BaseProjectile;
+import de.lw.game.objects.projectiles.BaseProjectile;
 
 import java.awt.*;
 

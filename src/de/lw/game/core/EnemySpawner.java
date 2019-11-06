@@ -1,8 +1,8 @@
-package leonard.wolf.gamecore;
+package de.lw.game.core;
 
-import leonard.wolf.gameobjects.players.BaseEnemy;
-import leonard.wolf.gameobjects.players.EnemyBoss;
-import leonard.wolf.gameobjects.players.EnemyShip;
+import de.lw.game.objects.players.BaseEnemy;
+import de.lw.game.objects.players.EnemyBoss;
+import de.lw.game.objects.players.EnemyShip;
 
 public class EnemySpawner {
 

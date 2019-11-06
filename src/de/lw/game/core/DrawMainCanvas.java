@@ -1,10 +1,10 @@
-package leonard.wolf.gamecore;
+package de.lw.game.core;
 
-import leonard.wolf.gameobjects.players.BaseEnemy;
-import leonard.wolf.gameobjects.players.PlayerShip;
-import leonard.wolf.gameobjects.projectiles.BaseProjectile;
-import leonard.wolf.gameobjects.projectiles.FriendlyProjectile;
-import leonard.wolf.gameobjects.projectiles.HostileProjectile;
+import de.lw.game.objects.players.BaseEnemy;
+import de.lw.game.objects.players.PlayerShip;
+import de.lw.game.objects.projectiles.BaseProjectile;
+import de.lw.game.objects.projectiles.FriendlyProjectile;
+import de.lw.game.objects.projectiles.HostileProjectile;
 
 import javax.swing.*;
 import java.awt.*;

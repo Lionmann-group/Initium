@@ -1,11 +1,11 @@
-package leonard.wolf.gameobjects.players;
+package de.lw.game.objects.players;
 
 
-import leonard.wolf.gamecore.ImageRepository;
-import leonard.wolf.gamecore.Lifebar;
-import leonard.wolf.gameobjects.projectiles.AimedProjectile;
-import leonard.wolf.gameobjects.projectiles.FollowProjectile;
-import leonard.wolf.gameobjects.projectiles.HostileProjectile;
+import de.lw.game.objects.projectiles.AimedProjectile;
+import de.lw.game.objects.projectiles.FollowProjectile;
+import de.lw.game.core.ImageRepository;
+import de.lw.game.core.Lifebar;
+import de.lw.game.objects.projectiles.HostileProjectile;
 
 import java.awt.*;
 

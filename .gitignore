@@ -1,10 +1,13 @@
 # Ignore All
 *
 
+# except subdirectories
+!*/
+
 # Include Directories
-!src/*
-!resources/*
+!/src/**
+!/resources/**
 
 # Include Files
-!.gitignore
+!/.gitignore
 
