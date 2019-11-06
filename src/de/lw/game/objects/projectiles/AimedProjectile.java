@@ -1,9 +1,8 @@
 package de.lw.game.objects.projectiles;
 
-
 import de.lw.game.core.ImageRepository;
 
-import java.awt.*;
+import java.awt.Image;
 
 public class AimedProjectile extends HostileProjectile {
 
@@ -17,7 +16,7 @@ public class AimedProjectile extends HostileProjectile {
         setSizeY(10);
         setSpeedX(-10);
         img = ImageRepository.getInstance().loadImage("/Objects/Shot.png");
-        img = img.getScaledInstance((int)getSizeX(), (int)getSizeY(), Image.SCALE_SMOOTH);
+        img = img.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 
     @Override

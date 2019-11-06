@@ -7,7 +7,7 @@ import de.lw.game.objects.players.EnemyShip;
 public class EnemySpawner {
 
     boolean lvl1Finished,lvl2Finished;
-    double enemyTimer;
+    int enemyTimer;
     double posX;
     double posY;
     double sizeX;
@@ -21,47 +21,38 @@ public class EnemySpawner {
     }
 
     public BaseEnemy[] spawnLvL1() {
-        //if (enemyTimer == 100) {
-        //return new BaseEnemy[] { new EnemyBoss(1250, 225) };
-        //}
-        if (enemyTimer == 100) {
-            return new BaseEnemy[] { new EnemyShip(1250, 25), new EnemyShip(1250, 525) };
-        } else if (enemyTimer == 200) {
-            return new BaseEnemy[] { new EnemyShip(1250, 125), new EnemyShip(1250, 425) };
-        } else if (enemyTimer == 300) {
-            return new BaseEnemy[] { new EnemyShip(1250, 225), new EnemyShip(1250, 325) };
-        } else if (enemyTimer == 600) {
-            return new BaseEnemy[] { new EnemyShip(1250, 25), new EnemyShip(1250, 525) };
-        } else if (enemyTimer == 700) {
-            return new BaseEnemy[] { new EnemyShip(1250, 125), new EnemyShip(1250, 425) };
-        } else if (enemyTimer == 800) {
-            return new BaseEnemy[] { new EnemyShip(1250, 225), new EnemyShip(1250, 325) };
-        } else if (enemyTimer == 900) {
-            return new BaseEnemy[] { new EnemyShip(1250, 125), new EnemyShip(1250, 225) };
-        } else if (enemyTimer == 1300) {
-            return new BaseEnemy[] { new EnemyShip(1250, 75), new EnemyShip(1250, 475) };
-        } else if (enemyTimer == 1400) {
-            return new BaseEnemy[] { new EnemyShip(1250, 125), new EnemyShip(1250, 425) };
-        } else if (enemyTimer == 1500) {
-            return new BaseEnemy[] { new EnemyShip(1250, 175), new EnemyShip(1250, 375) };
-        } else if (enemyTimer == 1600) {
-            return new BaseEnemy[] { new EnemyShip(1250, 225), new EnemyShip(1250, 325) };
-        } else if (enemyTimer == 2000) {
-            return new BaseEnemy[] { new EnemyShip(1250, 25), new EnemyShip(1250, 525) };
-        } else if (enemyTimer == 2100) {
-            return new BaseEnemy[] { new EnemyShip(1250, 125), new EnemyShip(1250, 425) };
-        } else if (enemyTimer == 2200) {
-            return new BaseEnemy[] { new EnemyShip(1250, 225), new EnemyShip(1250, 325) };
-        } else if (enemyTimer == 2700) {
-            return new BaseEnemy[] { new EnemyBoss(1250, 225) };
+        switch (enemyTimer) {
+            case 100:
+            case 600:
+            case 2000: return new BaseEnemy[] { new EnemyShip(1250, 25), new EnemyShip(1250, 525) };
+
+            case 200:
+            case 700:
+            case 1400:
+            case 2100: return new BaseEnemy[] { new EnemyShip(1250, 125), new EnemyShip(1250, 425) };
+
+            case 300:
+            case 800:
+            case 1600:
+            case 2200: return new BaseEnemy[] { new EnemyShip(1250, 225), new EnemyShip(1250, 325) };
+
+            case 900: return new BaseEnemy[] { new EnemyShip(1250, 125), new EnemyShip(1250, 225) };
+
+            case 1300: return new BaseEnemy[] { new EnemyShip(1250, 75), new EnemyShip(1250, 475) };
+
+            case 1500: return new BaseEnemy[] { new EnemyShip(1250, 175), new EnemyShip(1250, 375) };
+
+            case 2700: return new BaseEnemy[] { new EnemyBoss(1250, 225) };
+
+            default: return null;
         }
-        return null;
     }
 
-    public BaseEnemy spawnAsteriodEnemy() {
+    public BaseEnemy spawnAsteroidEnemy() {
         if(enemyTimer % 400 == 0) {
             return new BaseEnemy(1250, (Math.random() * 530) + 20);
         }
+
         return null;
     }
 
@@ -81,11 +72,11 @@ public class EnemySpawner {
         return sizeY;
     }
 
-    public double getEnemyTimer() {
+    public int getEnemyTimer() {
         return enemyTimer;
     }
 
-    public void setEnemyTimer(double enemyTimer) {
+    public void setEnemyTimer(final int enemyTimer) {
         this.enemyTimer = enemyTimer;
     }
 

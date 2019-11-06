@@ -1,13 +1,13 @@
 package de.lw.game.objects.players;
 
-
-import de.lw.game.objects.projectiles.AimedProjectile;
-import de.lw.game.objects.projectiles.FollowProjectile;
 import de.lw.game.core.ImageRepository;
 import de.lw.game.core.Lifebar;
+import de.lw.game.objects.projectiles.AimedProjectile;
+import de.lw.game.objects.projectiles.FollowProjectile;
 import de.lw.game.objects.projectiles.HostileProjectile;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 public class EnemyBoss extends EnemyShip {
 
@@ -33,47 +33,35 @@ public class EnemyBoss extends EnemyShip {
     }
 
     @Override
-    public HostileProjectile[] shoot() {
-        //turn means the timer where the ship doesnt move
+    public void shoot() {
+        // turn means the timer where the ship doesn't move
         if (turn < 500) {
             shootDelay++;
-            if(phase == 3) {
-                if (shootDelay % 50 == 0) {
-                    return new HostileProjectile[] { new HostileProjectile(getPosX(), getPosY()),
-                            new HostileProjectile(getPosX(), getPosY() + 40),
-                            new HostileProjectile(getPosX(), getPosY() + 80) };
+
+            if (shootDelay % 50 == 0) {
+                shotsFired.add(new HostileProjectile(getPosX(), getPosY()));
+                shotsFired.add(new HostileProjectile(getPosX(), getPosY() + 40));
+                shotsFired.add(new HostileProjectile(getPosX(), getPosY() + 80));
+            }
+
+            if ((phase == 3 && shootDelay % 32 == 0) || (phase == 2 && shootDelay % 20 == 0)) {
+                shotsFired.add(new AimedProjectile(getPosX(), getPosY() + 40));
+            }
+
+            if (phase == 3) {
+                if (shootDelay % 101 == 0) {
+                    shotsFired.add(new FollowProjectile(getPosX(), getPosY() + 40));
                 }
-                if(shootDelay % 32 == 0) {
-                    return new HostileProjectile[] { new AimedProjectile(getPosX(), getPosY() + 40) };
-                }
-                if(shootDelay % 101 == 0) {
-                    return new HostileProjectile[] { new FollowProjectile(getPosX(), getPosY() + 40) };
+            } else if (phase == 1) {
+                if (shootDelay == 249 || shootDelay == 499) {
+                    shotsFired.add(new FollowProjectile(getPosX(), getPosY() + 40));
                 }
             }
-            else if (phase == 2) {
-                if (shootDelay % 50 == 0) {
-                    return new HostileProjectile[] { new HostileProjectile(getPosX(), getPosY()),
-                            new HostileProjectile(getPosX(), getPosY() + 40),
-                            new HostileProjectile(getPosX(), getPosY() + 80) };
-                }
-                if(shootDelay % 20 == 0) {
-                    return new HostileProjectile[] { new AimedProjectile(getPosX(), getPosY() + 40) };
-                }
-            } else if(phase == 1){
-                if (shootDelay % 50 == 0) {
-                    return new HostileProjectile[] { new HostileProjectile(getPosX(), getPosY()),
-                            new HostileProjectile(getPosX(), getPosY() + 40),
-                            new HostileProjectile(getPosX(), getPosY() + 80) };
-                }
-                if (shootDelay  == 249 || shootDelay == 499) {
-                    return new HostileProjectile[] { new FollowProjectile(getPosX(), getPosY() + 40) };
-                }
-            }
+
             if (shootDelay == 500) {
                 shootDelay = 0;
             }
         }
-        return null;
     }
 
     @Override
@@ -81,22 +69,25 @@ public class EnemyBoss extends EnemyShip {
         lifebar.lifebarLoseHp(1);
         if (getHp() == 60) {
             phase = 2;
-        }else if(getHp() == 30) {
+        } else if (getHp() == 30) {
             phase = 3;
         }
     }
 
     @Override
     public void onDeath() {
-        lifebar.equals(null);
+        lifebar = null;
     }
 
     @Override
     public void move() {
         lifebar.sync(getPosX(), getPosY());
+
         posX = posX + getSpeedX();
         posY = posY + getSpeedY();
+
         turn++;
+
         if (turn > 600) {
             setSpeedY(-5);
             turn = 0;
@@ -105,8 +96,10 @@ public class EnemyBoss extends EnemyShip {
         if (getPosX() <= 1000) {
             setSpeedX(0);
         }
+
         if (outOfArea(0, 21, 2000, 548)) {
             setSpeedY(getSpeedY() * (-1));
         }
     }
+
 }

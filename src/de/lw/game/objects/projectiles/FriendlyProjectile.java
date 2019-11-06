@@ -15,4 +15,7 @@ public class FriendlyProjectile extends BaseProjectile {
         img = img.getScaledInstance((int)getSizeX(), (int)getSizeY(), Image.SCALE_SMOOTH);
     }
 
+    @Override
+    public void shipPosition(final double x, final double y) {}
+
 }
