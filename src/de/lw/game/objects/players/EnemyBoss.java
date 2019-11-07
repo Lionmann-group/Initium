@@ -11,23 +11,25 @@ import java.awt.Image;
 
 public class EnemyBoss extends EnemyShip {
 
-    Lifebar lifebar;
-    int phase = 1;
+    private Lifebar lifebar;
+    private int phase = 1;
 
-    public EnemyBoss(double posX, double posY) {
+    public EnemyBoss(final double posX, final double posY) {
         super(posX, posY);
+
         setSizeX(100);
         setSizeY(100);
         setHp(100);
         setSpeedX(-1.5);
         setSpeedY(-5);
+
         img = ImageRepository.getInstance().loadImage("/Enemies/EnemyBoss.png");
         img = img.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
         lifebar = new Lifebar(getPosX(), getPosY(), getSizeX(), getHp());
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
+    public void draw(final Graphics2D g2d) {
         g2d.drawImage(img, (int) getPosX(), (int) getPosY(), null);
         lifebar.draw(g2d);
     }
@@ -81,7 +83,7 @@ public class EnemyBoss extends EnemyShip {
 
     @Override
     public void move() {
-        lifebar.sync(getPosX(), getPosY());
+        lifebar.setPosition(getPosX(), getPosY());
 
         posX = posX + getSpeedX();
         posY = posY + getSpeedY();

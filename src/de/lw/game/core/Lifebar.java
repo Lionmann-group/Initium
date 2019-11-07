@@ -5,16 +5,11 @@ import java.awt.Image;
 
 public class Lifebar {
 
-    double positionX;
-    double movedPositionY;
-    double sizeX;
-    double sizeY;
-    double maxHp;
-    private int seperator;
-    Image greenBar;
-    Image redBar;
+    private double positionX, movedPositionY, sizeX, sizeY;
+    private int maxHp, seperator;
+    private Image greenBar, redBar;
 
-    public Lifebar(double positionX, double mainPositionY, double sizeX, double maxHp) {
+    public Lifebar(final double positionX, final double mainPositionY, final double sizeX, final int maxHp) {
         this.positionX = positionX;
         this.movedPositionY = mainPositionY + 40;
         this.sizeX = sizeX;
@@ -32,12 +27,12 @@ public class Lifebar {
         g2d.drawImage(greenBar, (int) getPositionX(), (int) getMovedPositionY(), null);
     }
 
-    public void sync(double positionX, double mainPositionY) {
+    public void setPosition(final double positionX, final double mainPositionY) {
         this.positionX = positionX;
         this.movedPositionY = mainPositionY - 30;
     }
 
-    public void lifebarLoseHp(int dmg) {
+    public void lifebarLoseHp(final int dmg) {
         seperator = seperator - dmg;
         greenBar = greenBar.getScaledInstance(seperator + 1, (int) getSizeY(), Image.SCALE_SMOOTH);
     }
@@ -46,7 +41,7 @@ public class Lifebar {
         return positionX;
     }
 
-    public void setPositionX(double positionX) {
+    public void setPositionX(final double positionX) {
         this.positionX = positionX;
     }
 
@@ -54,7 +49,7 @@ public class Lifebar {
         return movedPositionY;
     }
 
-    public void setMovedPositionY(double movedPositionY) {
+    public void setMovedPositionY(final double movedPositionY) {
         this.movedPositionY = movedPositionY;
     }
 
@@ -62,7 +57,7 @@ public class Lifebar {
         return sizeX;
     }
 
-    public void setSizeX(double sizeX) {
+    public void setSizeX(final double sizeX) {
         this.sizeX = sizeX;
     }
 
@@ -70,15 +65,15 @@ public class Lifebar {
         return sizeY;
     }
 
-    public void setSizeY(double sizeY) {
+    public void setSizeY(final double sizeY) {
         this.sizeY = sizeY;
     }
 
-    public double getMaxHp() {
+    public int getMaxHp() {
         return maxHp;
     }
 
-    public void setMaxHp(double maxHp) {
+    public void setMaxHp(final int maxHp) {
         this.maxHp = maxHp;
     }
 
@@ -86,7 +81,7 @@ public class Lifebar {
         return greenBar;
     }
 
-    public void setGreenBar(Image greenBar) {
+    public void setGreenBar(final Image greenBar) {
         this.greenBar = greenBar;
     }
 

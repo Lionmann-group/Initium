@@ -4,31 +4,42 @@ import de.lw.game.core.ImageRepository;
 import de.lw.game.objects.projectiles.FriendlyProjectile;
 import de.lw.game.objects.projectiles.HostileProjectile;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Stroke;
 
 public class PlayerShip extends BaseShip {
 
-    double ammo;
-    double shield;
-    Color shieldColor = Color.GREEN;
+    private int ammo, shield;
+    private Color shieldColor = Color.GREEN;
 
-    public PlayerShip(double posX, double posY) {
+    public PlayerShip(final double posX, final double posY) {
         super(posX, posY);
+
         setSizeX(80);
         setSizeY(30);
         setHp(3);
         setAmmo(10);
         setShield(10);
+
         img = ImageRepository.getInstance().loadImage("/Player/Spaceship.png");
         img = img.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 
     @Override
-    public void draw(Graphics2D g2d) {
-        g2d.setColor(shieldColor);
-        g2d.fillOval((int) getPosX() - 10, (int) getPosY() - 5, 100, 40);
+    public void draw(final Graphics2D g2d) {
+        if (getShield() > 1) {
+            g2d.setColor(shieldColor);
+
+            final Stroke before = g2d.getStroke();
+
+            g2d.setStroke(new BasicStroke(3.0f));
+            g2d.drawOval((int) getPosX() - 15, (int) getPosY() - 10, 110, 50);
+            g2d.setStroke(before);
+        }
+
         g2d.drawImage(img, (int) getPosX(), (int) getPosY(), null);
     }
 
@@ -39,17 +50,15 @@ public class PlayerShip extends BaseShip {
             shieldColor = Color.ORANGE;
         } else if (getShield() > 1) {
             shieldColor = Color.RED;
-        } else if (getShield() < 1) {
-            shieldColor = Color.BLACK;
         }
     }
 
-    public boolean hitByEnemy(BaseEnemy p) {
+    public boolean hitByEnemy(final BaseEnemy p) {
         ifHit();
         return inBounds(p.getPosX(), p.getPosY(), p.getSizeX(), p.getSizeY());
     }
 
-    public boolean hitByProjectile(HostileProjectile p) {
+    public boolean hitByProjectile(final HostileProjectile p) {
         ifHit();
         return inBounds(p.getPosX(), p.getPosY(), p.getSizeX(), p.getSizeY());
     }
@@ -63,19 +72,19 @@ public class PlayerShip extends BaseShip {
         return hp > 0;
     }
 
-    public double getAmmo() {
+    public int getAmmo() {
         return ammo;
     }
 
-    public void setAmmo(double ammo) {
+    public void setAmmo(final int ammo) {
         this.ammo = ammo;
     }
 
-    public double getShield() {
+    public int getShield() {
         return shield;
     }
 
-    public void setShield(double shield) {
+    public void setShield(final int shield) {
         this.shield = shield;
     }
 

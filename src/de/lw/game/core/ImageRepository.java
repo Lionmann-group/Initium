@@ -19,23 +19,22 @@ public class ImageRepository {
         return instance;
     }
 
-    public Image loadImage(String path) {
+    public Image loadImage(final String path) {
         Image image = map.get(path);
 
         if (image == null) {
-            image = imageReader(path);
+            image = readImage(path);
             map.put(path, image);
         }
 
         return image;
     }
 
-    private Image imageReader(String texture) {
+    private Image readImage(final String resource) {
         Image img = null;
 
         try {
-            img = ImageIO.read(Class.forName(ImageRepository.class.getName()).getResource(texture));
-            // System.out.println(img + "Love");
+            img = ImageIO.read(Class.forName(ImageRepository.class.getName()).getResource(resource));
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
