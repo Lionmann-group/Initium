@@ -24,7 +24,7 @@ public class EnemyShip extends BaseEnemy {
             setSpeedY(-0.4);
         }
 
-        img = ImageRepository.getInstance().loadImage("/Enemies/Enemyship.png");
+        img = ImageRepository.getInstance().loadImage("/Enemies/EnemyShip.png");
         img = img.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 

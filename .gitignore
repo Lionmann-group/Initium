@@ -10,4 +10,5 @@
 
 # Include Files
 !/.gitignore
+!/pom.xml
 
