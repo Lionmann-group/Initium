@@ -10,17 +10,14 @@ import java.util.List;
 public class BaseShip {
 
     Image img;
-    double hp;
+    int hp;
     double posX;
     double posY;
-    double sizeX;
-    double sizeY;
-    double speedX;
-    double speedY;
+    private double sizeX, sizeY, speedX, speedY;
 
-    protected final List<BaseProjectile> shotsFired = new ArrayList<>(64);
+    final List<BaseProjectile> shotsFired = new ArrayList<>(64);
 
-    public BaseShip(double posX, double posY) {
+    public BaseShip(final double posX, final double posY) {
         this.posX = posX;
         this.posY = posY;
     }
@@ -30,39 +27,39 @@ public class BaseShip {
         posY = posY + getSpeedY();
     }
 
-    public boolean outOfArea(double posX, double posY, double width, double height) {
+    public boolean outOfArea(final double posX, final double posY, final double width, final double height) {
         return getPosX() + getSizeX() >= width + posX || getPosX() <= posX || getPosY() + getSizeY() >= height + posY
                 || getPosY() <= posY;
     }
 
 
-    public boolean outOfAreaRight(double posX, double width) {
+    public boolean outOfAreaRight(final double posX, final double width) {
         return getPosX() + getSizeX() >= width + posX;
     }
 
-    public boolean outOfAreaLeft(double posX) {
+    public boolean outOfAreaLeft(final double posX) {
         return getPosX() <= posX;
     }
 
-    public boolean outOfAreaBottom(double posY, double height) {
+    public boolean outOfAreaBottom(final double posY, final double height) {
         return getPosY() + getSizeY() >= height + posY;
     }
 
-    public boolean outOfAreaTop(double posY) {
+    public boolean outOfAreaTop(final double posY) {
         return getPosY() <= posY;
     }
 
 
-    public boolean hitByProjectile(BaseProjectile p) {
+    public boolean hitByProjectile(final BaseProjectile p) {
         return inBounds(p.getPosX(), p.getPosY(), p.getSizeX(), p.getSizeY());
     }
 
-    public boolean inBounds(double x, double y, double sizeX, double sizeY) {
+    public boolean inBounds(final double x, final double y, final double sizeX, final double sizeY) {
         return getPosX() < x + sizeX && getPosX() + getSizeX() > x && getPosY() < y + sizeY
                 && getPosY() + getSizeY() > y;
     }
 
-    public void draw(Graphics2D g2d) {
+    public void draw(final Graphics2D g2d) {
         g2d.drawImage(img, (int) getPosX(), (int) getPosY(), null);
     }
 
@@ -74,11 +71,11 @@ public class BaseShip {
         return posY + sizeY / 2;
     }
 
-    public double getHp() {
+    public int getHp() {
         return hp;
     }
 
-    public void setHp(double hp) {
+    public void setHp(final int hp) {
         this.hp = hp;
     }
 
@@ -92,7 +89,7 @@ public class BaseShip {
         return posX;
     }
 
-    public void setPosX(double posX) {
+    public void setPosX(final double posX) {
         this.posX = posX;
     }
 
@@ -100,7 +97,7 @@ public class BaseShip {
         return posY;
     }
 
-    public void setPosY(double posY) {
+    public void setPosY(final double posY) {
         this.posY = posY;
     }
 
@@ -108,7 +105,7 @@ public class BaseShip {
         return sizeX;
     }
 
-    public void setSizeX(double sizeX) {
+    public void setSizeX(final double sizeX) {
         this.sizeX = sizeX;
     }
 
@@ -116,7 +113,7 @@ public class BaseShip {
         return sizeY;
     }
 
-    public void setSizeY(double sizeY) {
+    public void setSizeY(final double sizeY) {
         this.sizeY = sizeY;
     }
 
@@ -124,7 +121,7 @@ public class BaseShip {
         return speedX;
     }
 
-    public void setSpeedX(double speedX) {
+    public void setSpeedX(final double speedX) {
         this.speedX = speedX;
     }
 
@@ -132,7 +129,7 @@ public class BaseShip {
         return speedY;
     }
 
-    public void setSpeedY(double speedY) {
+    public void setSpeedY(final double speedY) {
         this.speedY = speedY;
     }
 
@@ -140,7 +137,7 @@ public class BaseShip {
         return img;
     }
 
-    public void setImg(Image img) {
+    public void setImg(final Image img) {
         this.img = img;
     }
 

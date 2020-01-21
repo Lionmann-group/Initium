@@ -25,7 +25,7 @@ public class DrawMainCanvas extends JFrame {
 
     private int measuredFps;
     private double shootTimer;
-    private int gamespeed = 60;
+    private int updateRate = 60;
     private int score;
 
     private GameOverlay gameOverlay;
@@ -38,19 +38,19 @@ public class DrawMainCanvas extends JFrame {
     private boolean spawnProjectileOnNextCycle;
 
     public DrawMainCanvas() {
+        playerShip = new PlayerShip(200, 300);
         gameOverlay = new GameOverlay();
         enemySpawner = new EnemySpawner(gameOverlay.gamePanel.getPosX(), gameOverlay.gamePanel.getPosY(), gameOverlay.gamePanel.getSizeX(), gameOverlay.gamePanel.getSizeY());
-        playerShip = new PlayerShip(200, 300);
         enemies = new ArrayList<>(64);
 
         setResizable(false);
 
         canvas = new DrawCanvas();
         canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
+
         add(canvas);
 
         canvas.addKeyListener(new KeyAdapter() {
-
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_D) {
@@ -82,27 +82,22 @@ public class DrawMainCanvas extends JFrame {
             }
         });
 
-//		canvas.addMouseListener(new MouseAdapter() {
-//
-//			@Override
-//			public void mouseReleased(MouseEvent e) {
-//
-//			}
-//		});
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
+
         canvas.createBufferStrategy(2);
+
         setLocationRelativeTo(null);
         setTitle("Not Space Invaders");
         setVisible(true);
+
         canvas.requestFocus();
     }
 
     public void run() {
-        BufferStrategy strategy = canvas.getBufferStrategy();
+        final BufferStrategy strategy = canvas.getBufferStrategy();
 
-        Thread th1 = new Thread() {
+        final Thread th1 = new Thread() {
             @Override
             public void run() {
                 long lastLoopTime = System.nanoTime();
@@ -124,7 +119,7 @@ public class DrawMainCanvas extends JFrame {
                         spawnProjectileOnNextCycle = false;
                     }
 
-                    gameOverlay.overchargebarAnimation(playerShip.getAmmo());
+                    gameOverlay.setOverchargeTexture(playerShip.getAmmo());
 
                     ammoDelay();
                     enemySpawn();
@@ -137,7 +132,7 @@ public class DrawMainCanvas extends JFrame {
 
                     canvas.paint(strategy.getDrawGraphics());
 
-                    while (System.nanoTime() < lastLoopTime + 1_000_000_000 / gamespeed) {
+                    while (System.nanoTime() < lastLoopTime + 1_000_000_000 / updateRate) {
                         try {
                             Thread.sleep(1);
                         } catch (InterruptedException e) {
@@ -225,7 +220,7 @@ public class DrawMainCanvas extends JFrame {
         }
     }
 
-    public void playerShipOutOfBounds() {
+    private void playerShipOutOfBounds() {
         int gamePanelPosX = (int) gameOverlay.gamePanel.getPosX();
         int gamePanelPosY = (int) gameOverlay.gamePanel.getPosY();
         int gamePanelSizeX = (int) gameOverlay.gamePanel.getSizeX();
@@ -251,7 +246,8 @@ public class DrawMainCanvas extends JFrame {
     private void collision() {
         final Iterator<BaseEnemy> enemyIterator = enemies.iterator();
 
-        enemyCheck : while (enemyIterator.hasNext()) {
+        enemyCheck:
+        while (enemyIterator.hasNext()) {
             final BaseEnemy enemy = enemyIterator.next();
 
             final Iterator<BaseProjectile> playerProjectileIterator = playerShip.getShotsFired().iterator();

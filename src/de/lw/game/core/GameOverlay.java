@@ -5,14 +5,15 @@ import java.awt.Image;
 
 public class GameOverlay {
 
-    final double position = 0;
-    double width = 1200;
-    double height = 800;
+    private final double position = 0;
+    private double width = 1200;
+    private double height = 800;
+    private GamePanel lifePanel = new GamePanel(200, 580, 250, 50, ImageRepository.getInstance().loadImage("/Lifebar/Herz3.png").getScaledInstance(250, 50, Image.SCALE_SMOOTH));
+    private GamePanel overcharge = new GamePanel(600, 580, 500, 50, ImageRepository.getInstance().loadImage("/Overchargebar/Status0.png").getScaledInstance(500, 50, Image.SCALE_SMOOTH));
+    private Image background;
+
     GamePanel gamePanel = new GamePanel(0, 20, 1200, 550, ImageRepository.getInstance().loadImage("/Colors/Black.png").getScaledInstance(1200, 550, Image.SCALE_SMOOTH));
-    GamePanel lifePanel = new GamePanel(200, 580, 250, 50, ImageRepository.getInstance().loadImage("/Lifebar/Herz3.png").getScaledInstance(250, 50, Image.SCALE_SMOOTH));
-    GamePanel shipPanel = new GamePanel(600, 580, 500, 50, ImageRepository.getInstance().loadImage("/Overchargebar/Status0.png").getScaledInstance(500, 50, Image.SCALE_SMOOTH));
-    GamePanel shieldPanel = new GamePanel(200, 630, 500, 50, ImageRepository.getInstance().loadImage("/Colors/Black.png").getScaledInstance(500, 50, Image.SCALE_SMOOTH));
-    Image background;
+    // GamePanel shieldPanel = new GamePanel(200, 630, 500, 50, ImageRepository.getInstance().loadImage("/Colors/Black.png").getScaledInstance(500, 50, Image.SCALE_SMOOTH));
 
     public GameOverlay() {
         background = ImageRepository.getInstance().loadImage("/Colors/Red.png").getScaledInstance((int) getWidth(), (int) getHeight(), Image.SCALE_SMOOTH);
@@ -22,7 +23,7 @@ public class GameOverlay {
         g2d.drawImage(background, (int) position, (int) position, null);
         gamePanel.draw(g2d);
         lifePanel.draw(g2d);
-        shipPanel.draw(g2d);
+        overcharge.draw(g2d);
     }
 
     public double getWidth() {
@@ -42,40 +43,40 @@ public class GameOverlay {
     }
 
     //Animations
-    public void overchargebarAnimation(double ammo) {
+    public void setOverchargeTexture(final int ammo) {
         if (ammo == 10) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status10.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status10.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 9) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status9.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status9.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 8) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status8.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status8.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 7) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status7.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status7.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 6) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status6.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status6.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 5) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status5.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status5.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 4) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status4.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status4.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 3) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status3.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status3.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 2) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status2.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status2.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 1) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status1.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status1.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         } else if (ammo == 0) {
-            shipPanel.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status0.png")
-                    .getScaledInstance((int) shipPanel.getSizeX(), (int) shipPanel.getSizeY(), Image.SCALE_SMOOTH));
+            overcharge.setImg(ImageRepository.getInstance().loadImage("/Overchargebar/Status0.png")
+                    .getScaledInstance((int) overcharge.getSizeX(), (int) overcharge.getSizeY(), Image.SCALE_SMOOTH));
         }
     }
 

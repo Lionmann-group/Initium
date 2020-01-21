@@ -8,22 +8,24 @@ import java.awt.Image;
 
 public class BaseEnemy extends BaseShip {
 
-    public BaseEnemy(double posX, double posY) {
+    public BaseEnemy(final double posX, final double posY) {
         super(posX, posY);
+
         setSizeX(80);
         setSizeY(60);
         setHp(1);
         setSpeedX(-2);
+
         img = ImageRepository.getInstance().loadImage("/Enemies/Asteroid.png");
         img = img.getScaledInstance((int) getSizeX(), (int) getSizeY(), Image.SCALE_SMOOTH);
     }
 
     @Override
-    public boolean outOfArea(double posX, double posY, double width, double height) {
+    public boolean outOfArea(final double posX, final double posY, final double width, final double height) {
         return getPosX() <= posX || getPosY() + getSizeY() >= height + posY || getPosY() <= posY;
     }
 
-    public boolean leftOutOfMap(double posX) {
+    public boolean leftOutOfMap(final double posX) {
         return getPosX() <= posX;
     }
 

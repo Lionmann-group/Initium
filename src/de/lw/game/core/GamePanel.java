@@ -5,11 +5,8 @@ import java.awt.Image;
 
 public class GamePanel {
 
-    double posX;
-    double posY;
-    double sizeX;
-    double sizeY;
-    Image img;
+    private double posX, posY, sizeX, sizeY;
+    private Image img;
 
     public GamePanel(double posX, double posY, double sizeX, double sizeY, Image img) {
         this.posX = posX;
