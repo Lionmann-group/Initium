@@ -1,9 +1,11 @@
 package de.lw.remake.objects;
 
 import de.lw.remake.Main;
+import de.lw.remake.hud.Lifebar;
 import de.lw.remake.projectile.EnemyProjectile;
 import de.lw.remake.projectile.PlayerProjectile;
 import de.todo.engine.animation.Animation;
+import de.todo.engine.collision.Collider;
 import de.todo.engine.collision.CollisionHandler;
 import de.todo.engine.collision.ObjectCollider;
 import de.todo.engine.entities.BaseTopdownPlayer;
@@ -17,22 +19,29 @@ import de.todo.engine.render.definition.TextureRenderDefinition;
 import de.todo.engine.render.mesh.Mesh;
 import de.todo.engine.render.mesh.RectangularMesh;
 import de.todo.engine.utility.DebugStatistics;
+import de.todo.engine.utility.UpdateMode;
 import org.joml.Vector2f;
 
 public class PlayerShip extends BaseTopdownPlayer {
 
+    public static final int TYPE_PLAYERSHIP = Collider.getNextFreeColliderType();
     private static final Mesh MESH = new RectangularMesh(85.8f, 30.75f);
 
     private final PlayerShield shield;
+    private final Lifebar lifebar;
     private boolean shooting = false;
     private long lastShot;
 
-    public PlayerShip() {
+    public PlayerShip(final Lifebar lifebar) {
         super(
                 MESH,
                 new Vector2f(Main.WINDOW_WIDTH / 4.0f, Main.WINDOW_HEIGHT / 2.0f),
-                192.0f
+                350.0f
         );
+
+        this.lifebar = lifebar;
+
+        setUpdateMode(UpdateMode.ALWAYS);
 
         setRenderDefinition(new AnimationRenderDefinition(Animation.loadAnimation("/Player/", "Spaceship_0", "png", 4)));
 
@@ -60,8 +69,12 @@ public class PlayerShip extends BaseTopdownPlayer {
 
     @Override
     public void onCollision(final CollisionEvent event) {
-        if (event.getCollisionAxis() != CollisionHandler.CollisionAxis.NONE && event.getType() == EnemyProjectile.TYPE_PROJECTILE) {
-            shield.charge -= 1;
+        if (event.getCollisionAxis() != CollisionHandler.CollisionAxis.NONE && (
+                event.getType() == EnemyProjectile.TYPE_PROJECTILE ||
+                        event.getType() == Asteroid.TYPE_ASTEROID ||
+                        event.getType() == EnemyShip.TYPE_ENEMY
+        )) {
+            onHit();
         }
     }
 
@@ -74,10 +87,23 @@ public class PlayerShip extends BaseTopdownPlayer {
         }
     }
 
+    private void onHit() {
+        shield.charge -= 1;
+
+        if (shield.charge <= -1){
+            lifebar.updateHearts(-1);
+        }
+    }
+
     private static final class PlayerCollider extends ObjectCollider {
 
         public PlayerCollider(final GameObject object) {
             super(object);
+        }
+
+        @Override
+        public int getType() {
+            return TYPE_PLAYERSHIP;
         }
 
         @Override
@@ -116,7 +142,7 @@ public class PlayerShip extends BaseTopdownPlayer {
 
             if (charge < 4) renderDefinition.setColorOverride(GLColor.YELLOW);
             if (charge < 2) renderDefinition.setColorOverride(GLColor.RED);
-            if (charge < 0) disable();
+            if (charge <= 0) disable();
 
             DebugStatistics.getInstance().appendCustomDebug("Shield: " + charge);
         }
