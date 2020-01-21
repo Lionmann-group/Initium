@@ -24,14 +24,13 @@ public class BaseProjectile extends GameObject {
         setMesh(new RectangularMesh(79.3f, 17.6f));
         setRenderDefinition(new TextureRenderDefinition("/Objects/Shot.png"));
         setScale(0.2f);
-
         setCollider(new ProjectileCollider(this, type));
         setCollision(true);
     }
 
     @Override
     public void update() {
-        move(new Vector2f(256.0f * direction, 0.0f));
+        move(new Vector2f(400.0f * direction, 0.0f));
     }
 
     @Override
