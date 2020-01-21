@@ -19,6 +19,7 @@ import de.todo.engine.render.definition.TextureRenderDefinition;
 import de.todo.engine.render.mesh.Mesh;
 import de.todo.engine.render.mesh.RectangularMesh;
 import de.todo.engine.utility.DebugStatistics;
+import de.todo.engine.utility.Timer;
 import de.todo.engine.utility.UpdateMode;
 import org.joml.Vector2f;
 
@@ -30,7 +31,10 @@ public class PlayerShip extends BaseTopdownPlayer {
     private final PlayerShield shield;
     private final Lifebar lifebar;
     private boolean shooting = false;
+    private boolean invincible = false;
     private long lastShot;
+    private float resetInvinciblityTimer = 0.0f;
+    private float invincibleTime = 1.5f;
 
     public PlayerShip(final Lifebar lifebar) {
         super(
@@ -65,6 +69,19 @@ public class PlayerShip extends BaseTopdownPlayer {
             shooting = false;
             lastShot = System.currentTimeMillis();
         }
+
+        if(invincible) {
+            resetInvinciblityTimer += Timer.getTimeDelta();
+            System.out.println(resetInvinciblityTimer);
+        }
+
+        if (resetInvinciblityTimer >= invincibleTime){
+            invincible = false;
+            resetInvinciblityTimer -= invincibleTime;
+
+        }
+
+        DebugStatistics.getInstance().appendCustomDebug(" " + invincible);
     }
 
     @Override
@@ -88,11 +105,18 @@ public class PlayerShip extends BaseTopdownPlayer {
     }
 
     private void onHit() {
-        shield.charge -= 1;
+        if(!invincible){
+            shield.charge -= 1;
 
-        if (shield.charge <= -1){
-            lifebar.updateHearts(-1);
+            if (shield.charge <= -1){
+                lifebar.updateHearts(-1);
+                invincible = true;
+            }
         }
+    }
+
+    private void invincibleShieldAnimation(){
+
     }
 
     private static final class PlayerCollider extends ObjectCollider {
@@ -133,7 +157,7 @@ public class PlayerShip extends BaseTopdownPlayer {
 
             setRenderDefinition(renderDefinition);
 
-            setScale(1.4f);
+            setScale(1.2f);
         }
 
         @Override
@@ -144,7 +168,6 @@ public class PlayerShip extends BaseTopdownPlayer {
             if (charge < 2) renderDefinition.setColorOverride(GLColor.RED);
             if (charge <= 0) disable();
 
-            DebugStatistics.getInstance().appendCustomDebug("Shield: " + charge);
         }
 
     }
