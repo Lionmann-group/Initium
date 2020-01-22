@@ -12,16 +12,24 @@ import de.todo.engine.input.IInputState;
 import de.todo.engine.render.GLColor;
 import de.todo.engine.scene.Scene;
 import de.todo.engine.utility.DebugStatistics;
+import de.todo.engine.utility.ResourceRepository;
 import org.joml.Vector2f;
+import org.w3c.dom.ls.LSResourceResolver;
 
 import java.awt.Font;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Arrays;
 
 public class Main extends Scene {
 
     public static final int WINDOW_WIDTH = 1200;
     public static final int WINDOW_HEIGHT = 700;
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
+        ResourceRepository.addRepository(Main.class);
+
         final GameEngine ge = new GameEngine(
                 "Not Space Invaders",
                 WINDOW_WIDTH,
