@@ -62,7 +62,6 @@ public class PlayerShip extends BaseTopdownPlayer {
     @Override
     public void update() {
         super.update();
-
         if (shooting && System.currentTimeMillis() - lastShot >= 500) {
             addChildren(new PlayerProjectile(position.x, position.y));
 
@@ -72,7 +71,6 @@ public class PlayerShip extends BaseTopdownPlayer {
 
         if(invincible) {
             resetInvinciblityTimer += Timer.getTimeDelta();
-            System.out.println(resetInvinciblityTimer);
         }
 
         if (resetInvinciblityTimer >= invincibleTime){
@@ -102,6 +100,9 @@ public class PlayerShip extends BaseTopdownPlayer {
         if (inputState.isKeyPressed(KeyState.KEY_SPACE)) {
             shooting = true;
         }
+        if (inputState.isKeyPressed(KeyState.KEY_G)) {
+            shield.charge = 5;
+        }
     }
 
     private void onHit() {
@@ -109,14 +110,11 @@ public class PlayerShip extends BaseTopdownPlayer {
             shield.charge -= 1;
 
             if (shield.charge <= -1){
+                shield.charge = 5;
                 lifebar.updateHearts(-1);
                 invincible = true;
             }
         }
-    }
-
-    private void invincibleShieldAnimation(){
-
     }
 
     private static final class PlayerCollider extends ObjectCollider {
@@ -137,25 +135,27 @@ public class PlayerShip extends BaseTopdownPlayer {
 
     }
 
-    private static final class PlayerShield extends GameObject {
+    private final class PlayerShield extends GameObject {
 
-        private final TextureRenderDefinition renderDefinition;
+        private TextureRenderDefinition shieldRenderDefinition;
+        private TextureRenderDefinition invincibleShieldRenderDefinition;
 
         private int charge = 5;
 
         public PlayerShield(final Vector2f position) {
             super(position);
 
+            setUpdateMode(UpdateMode.ALWAYS);
             setLayer(0.55f);
 
             useRelativePosition(false);
 
             setMesh(MESH);
 
-            renderDefinition = new TextureRenderDefinition("/Player/Spaceship_Shield.png");
-            renderDefinition.setColorOverride(GLColor.GREEN);
+            shieldRenderDefinition = new TextureRenderDefinition("/Player/Spaceship_Shield.png");
+            invincibleShieldRenderDefinition = new TextureRenderDefinition("/Player/Invincible_Shield.png");
 
-            setRenderDefinition(renderDefinition);
+            setRenderDefinition(shieldRenderDefinition);
 
             setScale(1.2f);
         }
@@ -163,10 +163,25 @@ public class PlayerShip extends BaseTopdownPlayer {
         @Override
         public void update() {
             setPosition(parent.getPosition());
+            boolean shouldShow = true;
 
-            if (charge < 4) renderDefinition.setColorOverride(GLColor.YELLOW);
-            if (charge < 2) renderDefinition.setColorOverride(GLColor.RED);
-            if (charge <= 0) disable();
+            if (invincible) {
+                setRenderDefinition(invincibleShieldRenderDefinition);
+            } else {
+                setRenderDefinition(shieldRenderDefinition);
+                if (charge >= 4) shieldRenderDefinition.setColorOverride(GLColor.GREEN);
+                if (charge < 4) shieldRenderDefinition.setColorOverride(GLColor.YELLOW);
+                if (charge < 2) shieldRenderDefinition.setColorOverride(GLColor.RED);
+                if (charge == 0) {
+                    shouldShow = false;
+                }
+
+            }
+            if(shouldShow){
+                shieldRenderDefinition.show();
+            } else {
+                shieldRenderDefinition.hide();
+            }
 
         }
 
