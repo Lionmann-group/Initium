@@ -17,7 +17,7 @@ public class EnemySpawner extends GameObject {
                     new EnemyShip( 0.0f, ((Main.WINDOW_HEIGHT / 6.0f)         )),
                     new EnemyShip(40.0f, ((Main.WINDOW_HEIGHT / 6.0f) * 2 + 25)),
                     new EnemyShip(40.0f, ((Main.WINDOW_HEIGHT / 6.0f) * 4 - 25)),
-                    new EnemyShip( 0.0f, ((Main.WINDOW_HEIGHT / 6.0f) * 5 + 25))
+                    new EnemyShip( 0.0f, ((Main.WINDOW_HEIGHT / 6.0f) * 5     ))
             }
     };
     // @formatter:on
