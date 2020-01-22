@@ -14,32 +14,28 @@ import de.todo.engine.scene.Scene;
 import de.todo.engine.utility.DebugStatistics;
 import de.todo.engine.utility.ResourceRepository;
 import org.joml.Vector2f;
-import org.w3c.dom.ls.LSResourceResolver;
 
 import java.awt.Font;
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Arrays;
 
 public class Main extends Scene {
 
     public static final int WINDOW_WIDTH = 1200;
     public static final int WINDOW_HEIGHT = 700;
+    public static GameEngine ENGINE;
 
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         ResourceRepository.addRepository(Main.class);
 
-        final GameEngine ge = new GameEngine(
+        ENGINE = new GameEngine(
                 "Not Space Invaders",
                 WINDOW_WIDTH,
                 WINDOW_HEIGHT,
                 new Main()
         );
 
-        ge.getConfig().setWindowVSync(true);
+        ENGINE.getConfig().setTargetFps(120);
 
-        ge.start();
+        ENGINE.start();
     }
 
     // Class
@@ -52,10 +48,12 @@ public class Main extends Scene {
 
         final GameObject stats = DebugStatistics.getInstance().createTextObject(new Vector2f(0, 0), new Font("Ubuntu Mono", Font.BOLD, 14), GLColor.WHITE, 4);
 
+        final Hud hud = new Hud();
+
         addGameObjects(
-                playerShip = new PlayerShip(),
+                playerShip = new PlayerShip(hud.getLifebar()),
                 new EnemySpawner(),
-                new Hud(),
+                hud,
                 new StarBackground(),
                 stats
         );
