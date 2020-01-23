@@ -1,6 +1,6 @@
 package de.lw.remake.objects;
 
-import de.lw.remake.Main;
+import de.lw.remake.MainScene;
 import de.lw.remake.hud.Lifebar;
 import de.lw.remake.projectile.EnemyProjectile;
 import de.lw.remake.projectile.PlayerProjectile;
@@ -39,7 +39,7 @@ public class PlayerShip extends BaseTopdownPlayer {
     public PlayerShip(final Lifebar lifebar) {
         super(
                 MESH,
-                new Vector2f(Main.WINDOW_WIDTH / 4.0f, Main.WINDOW_HEIGHT / 2.0f),
+                new Vector2f(MainScene.WINDOW_WIDTH / 4.0f, MainScene.WINDOW_HEIGHT / 2.0f),
                 350.0f
         );
 

@@ -17,7 +17,7 @@ import org.joml.Vector2f;
 
 import java.awt.Font;
 
-public class Main extends Scene {
+public class MainScene extends Scene {
 
     public static final int WINDOW_WIDTH = 1200;
     public static final int WINDOW_HEIGHT = 700;

@@ -1,6 +1,6 @@
 package de.lw.remake.Scene;
 
-import de.lw.remake.Main;
+import de.lw.remake.MainScene;
 import de.lw.remake.objects.StarBackground;
 import de.todo.engine.GameEngine;
 import de.todo.engine.Window;
@@ -20,7 +20,7 @@ public class StartScene extends Scene {
     Font headlineFont,basicFont,smallFont;
     TextObject gameName,versionNumber,firstOption,secondOption,thirdOption;
 
-    private void initTextobjects(){
+    private void initTextObjects(){
         gameName = new TextObject("Placeholder_game",new Vector2f(),RenderType.STATIC,headlineFont,GLColor.WHITE);
         versionNumber = new TextObject("a0.1.0",new Vector2f(),RenderType.STATIC,smallFont,GLColor.WHITE);
         firstOption = new TextObject("1",new Vector2f(),RenderType.STATIC,basicFont,GLColor.WHITE);
@@ -42,27 +42,28 @@ public class StartScene extends Scene {
 
         setActiveCamera(new Camera(0, 0));
         initFonts();
-        initTextobjects();
+        initTextObjects();
 
         //Vectors positions for the TextObjects
         gameName.setPosition(new Vector2f(
                 WIDTH / 2.0f - gameName.getWidth() / 2.0f,
                 HEIGHT / 2.0f/2/2 - gameName.getHeight() / 2.0f
         ));
-        versionNumber.setPosition(new Vector2f(
-                0,0
-        ));
+        versionNumber.setPosition(new Vector2f(0,0));
         firstOption.setPosition(new Vector2f(
-                windowDimensions.getWidth() / 2.0f - firstOption.getWidth() / 2.0f,
-                windowDimensions.getHeight() / 2.0f/2 - firstOption.getHeight() / 2.0f
+                WIDTH/2 - secondOption.getWidth() / 2.0f,
+                300f - secondOption.getHeight() / 2.0f
         ));
         secondOption.setPosition(new Vector2f(
-                windowDimensions.getWidth() / 2.0f - secondOption.getWidth() / 2.0f,
-                windowDimensions.getHeight() / 2.0f - secondOption.getHeight() / 2.0f
+                WIDTH/2 - secondOption.getWidth() / 2.0f,
+                400f - secondOption.getHeight() / 2.0f
+        ));
+        thirdOption.setPosition(new Vector2f(
+                WIDTH/2 - thirdOption.getWidth() / 2.0f,
+                500f - thirdOption.getHeight() / 2.0f
         ));
 
-
-        addGameObjects(gameName, versionNumber, secondOption, firstOption, new StarBackground());
+        addGameObjects(gameName, versionNumber, secondOption, firstOption, thirdOption, new StarBackground());
 
     }
 
@@ -72,13 +73,13 @@ public class StartScene extends Scene {
             System.exit(0);
         }
         if (inputState.isKeyReleased(KeyState.KEY_1)){
-            GameEngine.getInstance().setScene(new Main());
+            GameEngine.getInstance().setScene(new MainScene());
         }
         if (inputState.isKeyReleased(KeyState.KEY_2)){
-            GameEngine.getInstance().setScene(new Main());
+            GameEngine.getInstance().setScene(new MainScene());
         }
         if (inputState.isKeyReleased(KeyState.KEY_3)){
-            GameEngine.getInstance().setScene(new Main());
+            GameEngine.getInstance().setScene(new MainScene());
         }
 
     }

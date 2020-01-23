@@ -1,6 +1,6 @@
 package de.lw.remake.objects;
 
-import de.lw.remake.Main;
+import de.lw.remake.MainScene;
 import de.todo.engine.entities.GameObject;
 import de.todo.engine.utility.UpdateMode;
 
@@ -14,10 +14,10 @@ public class EnemySpawner extends GameObject {
     // @formatter:off
     private static final Supplier<GameObject[]>[] WAVES = new Supplier[] {
             () -> new GameObject[]{
-                    new EnemyShip( 0.0f, ((Main.WINDOW_HEIGHT / 6.0f)         )),
-                    new EnemyShip(40.0f, ((Main.WINDOW_HEIGHT / 6.0f) * 2 + 25)),
-                    new EnemyShip(40.0f, ((Main.WINDOW_HEIGHT / 6.0f) * 4 - 25)),
-                    new EnemyShip( 0.0f, ((Main.WINDOW_HEIGHT / 6.0f) * 5 + 25))
+                    new EnemyShip( 0.0f, ((MainScene.WINDOW_HEIGHT / 6.0f)         )),
+                    new EnemyShip(40.0f, ((MainScene.WINDOW_HEIGHT / 6.0f) * 2 + 25)),
+                    new EnemyShip(40.0f, ((MainScene.WINDOW_HEIGHT / 6.0f) * 4 - 25)),
+                    new EnemyShip( 0.0f, ((MainScene.WINDOW_HEIGHT / 6.0f) * 5 + 25))
             }
     };
     // @formatter:on
@@ -27,7 +27,7 @@ public class EnemySpawner extends GameObject {
     private int wave = 3;
 
     public EnemySpawner() {
-        super(Main.WINDOW_WIDTH, Main.WINDOW_HEIGHT / 2.0f);
+        super(MainScene.WINDOW_WIDTH, MainScene.WINDOW_HEIGHT / 2.0f);
 
         setUpdateMode(UpdateMode.ALWAYS);
     }
@@ -51,7 +51,7 @@ public class EnemySpawner extends GameObject {
         if (wave > 3) {
             final Random rng = new Random();
             for (int i = 0; i < 5; i++) {
-                addChildren(new Asteroid(100 + rng.nextInt(200), 50 + rng.nextInt(Main.WINDOW_HEIGHT - 50)));
+                addChildren(new Asteroid(100 + rng.nextInt(200), 50 + rng.nextInt(MainScene.WINDOW_HEIGHT - 50)));
             }
         }
     }
