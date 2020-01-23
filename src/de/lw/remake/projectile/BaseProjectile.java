@@ -21,7 +21,7 @@ public class BaseProjectile extends GameObject {
 
         useRelativePosition(false);
 
-        setMesh(new RectangularMesh(79.3f, 17.6f));
+        setMesh(new RectangularMesh(200.3f, 60.6f));
         setRenderDefinition(new TextureRenderDefinition("/Objects/Shot.png"));
         setScale(0.2f);
         setCollider(new ProjectileCollider(this, type));

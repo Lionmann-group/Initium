@@ -1,5 +1,6 @@
 package de.lw.remake;
 
+import de.lw.remake.Scene.StartScene;
 import de.lw.remake.hud.Hud;
 import de.lw.remake.objects.EnemySpawner;
 import de.lw.remake.objects.PlayerShip;
@@ -27,7 +28,7 @@ public class Main extends Scene {
                 "Not Space Invaders",
                 WINDOW_WIDTH,
                 WINDOW_HEIGHT,
-                new Main()
+                new StartScene()
         );
 
         ENGINE.getConfig().setTargetFps(120);

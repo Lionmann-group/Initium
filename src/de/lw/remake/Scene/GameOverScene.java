@@ -1,5 +1,6 @@
-package de.lw.remake;
+package de.lw.remake.Scene;
 
+import de.lw.remake.Main;
 import de.todo.engine.Window;
 import de.todo.engine.entities.TextObject;
 import de.todo.engine.input.IInputState;

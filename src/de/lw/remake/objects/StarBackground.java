@@ -18,7 +18,7 @@ public final class StarBackground extends GameObject {
 
     @Override
     public void update() {
-        move(new Vector2f(-0.5f, 0.0f));
+        move(new Vector2f(-10.5f, 0.0f));
     }
 
 }

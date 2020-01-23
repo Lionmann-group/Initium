@@ -34,7 +34,7 @@ public class PlayerShip extends BaseTopdownPlayer {
     private boolean invincible = false;
     private long lastShot;
     private float resetInvinciblityTimer = 0.0f;
-    private float invincibleTime = 1.5f;
+    private float invincibleTime = 10.5f;
 
     public PlayerShip(final Lifebar lifebar) {
         super(
@@ -47,7 +47,7 @@ public class PlayerShip extends BaseTopdownPlayer {
 
         setUpdateMode(UpdateMode.ALWAYS);
 
-        setRenderDefinition(new AnimationRenderDefinition(Animation.loadAnimation("/Player/", "Spaceship_0", "png", 4)));
+        setRenderDefinition(new AnimationRenderDefinition(Animation.loadAnimation("/Player/", "Spaceship_0", "png", 12)));
 
         setCollider(new PlayerCollider(this));
         setCollision(true);
@@ -138,7 +138,7 @@ public class PlayerShip extends BaseTopdownPlayer {
     private final class PlayerShield extends GameObject {
 
         private TextureRenderDefinition shieldRenderDefinition;
-        private TextureRenderDefinition invincibleShieldRenderDefinition;
+        private AnimationRenderDefinition invincibleShieldRenderDefinition;
 
         private int charge = 5;
 
@@ -153,7 +153,8 @@ public class PlayerShip extends BaseTopdownPlayer {
             setMesh(MESH);
 
             shieldRenderDefinition = new TextureRenderDefinition("/Player/Spaceship_Shield.png");
-            invincibleShieldRenderDefinition = new TextureRenderDefinition("/Player/Invincible_Shield.png");
+            invincibleShieldRenderDefinition = new AnimationRenderDefinition(Animation.loadAnimation("/Player/Invincible_Shield/", "Shield_0", "png", 24));
+
 
             setRenderDefinition(shieldRenderDefinition);
 

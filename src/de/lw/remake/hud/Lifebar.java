@@ -1,8 +1,7 @@
 package de.lw.remake.hud;
 
-import de.lw.remake.GameOverScene;
+import de.lw.remake.Scene.GameOverScene;
 import de.lw.remake.Main;
-import de.todo.engine.GameEngine;
 import de.todo.engine.entities.GameObject;
 import de.todo.engine.render.definition.TextureRenderDefinition;
 import de.todo.engine.render.mesh.SquareMesh;
