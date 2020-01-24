@@ -1,5 +1,6 @@
 package de.lw.remake;
 
+import de.lw.remake.Scene.StartScene;
 import de.lw.remake.hud.Hud;
 import de.lw.remake.objects.EnemySpawner;
 import de.lw.remake.objects.PlayerShip;
@@ -17,20 +18,20 @@ import org.joml.Vector2f;
 
 import java.awt.Font;
 
-public class Main extends Scene {
+public class MainScene extends Scene {
 
     public static final int WINDOW_WIDTH = 1200;
     public static final int WINDOW_HEIGHT = 700;
     public static GameEngine ENGINE;
 
     public static void main(String[] args) {
-        ResourceRepository.addRepository(Main.class);
+        ResourceRepository.addRepository(MainScene.class);
 
         ENGINE = new GameEngine(
                 "Not Space Invaders",
                 WINDOW_WIDTH,
                 WINDOW_HEIGHT,
-                new Main()
+                new StartScene()
         );
 
         ENGINE.getConfig().setTargetFps(120);

@@ -1,6 +1,6 @@
 package de.lw.remake.objects;
 
-import de.lw.remake.Main;
+import de.lw.remake.MainScene;
 import de.lw.remake.projectile.EnemyProjectile;
 import de.todo.engine.collision.Collider;
 import de.todo.engine.collision.CollisionHandler;
@@ -22,7 +22,7 @@ public class EnemyShip extends BaseShip {
     private float shotTimer;
 
     public EnemyShip(final float xOffset, final float y) {
-        super(Main.WINDOW_WIDTH + 50 + xOffset, y);
+        super(MainScene.WINDOW_WIDTH + 50 + xOffset, y);
 
         this.shootInterval = 1.5f + (float) (Math.random() * 2);
 

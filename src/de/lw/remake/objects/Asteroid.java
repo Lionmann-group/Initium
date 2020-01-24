@@ -1,6 +1,6 @@
 package de.lw.remake.objects;
 
-import de.lw.remake.Main;
+import de.lw.remake.MainScene;
 import de.todo.engine.collision.Collider;
 import de.todo.engine.collision.CollisionHandler;
 import de.todo.engine.collision.ObjectCollider;
@@ -18,7 +18,7 @@ public class Asteroid extends GameObject {
     private final float speed, rotation;
 
     public Asteroid(final float xOffset, final float y) {
-        super(Main.WINDOW_WIDTH + xOffset, y);
+        super(MainScene.WINDOW_WIDTH + xOffset, y);
 
         useRelativePosition(false);
 
