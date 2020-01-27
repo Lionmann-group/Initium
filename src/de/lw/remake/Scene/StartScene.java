@@ -1,6 +1,9 @@
 package de.lw.remake.Scene;
 
+import com.sun.tools.javac.Main;
+import de.lw.remake.Level;
 import de.lw.remake.MainScene;
+import de.lw.remake.objects.BaseShip;
 import de.lw.remake.objects.StarBackground;
 import de.todo.engine.GameEngine;
 import de.todo.engine.Window;

@@ -34,7 +34,7 @@ public class PlayerShip extends BaseTopdownPlayer {
     private boolean invincible = false;
     private long lastShot;
     private float resetInvinciblityTimer = 0.0f;
-    private float invincibleTime = 10.5f;
+    private float invincibleTime = 1.5f;
 
     public PlayerShip(final Lifebar lifebar) {
         super(
