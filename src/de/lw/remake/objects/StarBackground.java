@@ -11,9 +11,9 @@ public final class StarBackground extends GameObject {
     GameObject stars,planets;
 
     public StarBackground() {
-        super(MainScene.WINDOW_WIDTH + 100, MainScene.WINDOW_HEIGHT / 2.0f);
+        super(600, MainScene.WINDOW_HEIGHT / 2.0f);
         setLayer(0.1f);
-        setMesh(new RectangularMesh(3600, 700));
+        setMesh(new RectangularMesh(1200, 700));
         setRenderDefinition(new TextureRenderDefinition("/Background/Background.png"));
 
         stars = new GameObject(0,0);

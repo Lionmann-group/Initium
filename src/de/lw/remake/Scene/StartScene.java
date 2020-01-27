@@ -82,7 +82,7 @@ public class StartScene extends Scene {
             GameEngine.getInstance().setScene(new MainScene());
         }
         if (inputState.isKeyReleased(KeyState.KEY_3)){
-            GameEngine.getInstance().setScene(new MainScene());
+            GameEngine.getInstance().setScene(new GameScene(1));
         }
 
     }
