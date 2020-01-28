@@ -1,6 +1,6 @@
 package de.lw.remake.objects;
 
-import de.lw.remake.Main;
+import de.lw.remake.MainScene;
 import de.lw.remake.projectile.EnemyProjectile;
 import de.todo.engine.collision.Collider;
 import de.todo.engine.collision.CollisionHandler;
@@ -20,9 +20,10 @@ public class EnemyShip extends BaseShip {
 
     private final float shootInterval;
     private float shotTimer;
+    private boolean alive = true;
 
     public EnemyShip(final float xOffset, final float y) {
-        super(Main.WINDOW_WIDTH + 50 + xOffset, y);
+        super(MainScene.WINDOW_WIDTH + 50 + xOffset, y);
 
         this.shootInterval = 1.5f + (float) (Math.random() * 2);
 
@@ -47,7 +48,8 @@ public class EnemyShip extends BaseShip {
 
     @Override
     public void update() {
-        move(new Vector2f(-128.0f, (float) (Math.sin(position.x / 20.0f) * 128.0f)));
+        if (getRelativePosition().y > MainScene.WINDOW_HEIGHT / 2.0f) move(new Vector2f(-128.0f, (float) (-Math.sin(position.x / 40.0f) * 128.0f)));
+        else move(new Vector2f(-128.0f, (float) (Math.sin(position.x / 40.0f) * 128.0f)));
 
         if (getRelativePosition().x < -50) {
             die();
@@ -64,7 +66,16 @@ public class EnemyShip extends BaseShip {
 
     private void die() {
         EnemySpawner.ALIVE -= 1;
+        alive = false;
         cleanup();
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     private static final class EnemyShipCollider extends ObjectCollider {

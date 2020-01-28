@@ -1,10 +1,9 @@
-package de.lw.remake;
+package de.lw.remake.Scene;
 
+import de.lw.remake.Level;
 import de.lw.remake.hud.Hud;
-import de.lw.remake.objects.EnemySpawner;
 import de.lw.remake.objects.PlayerShip;
 import de.lw.remake.objects.StarBackground;
-import de.todo.engine.GameEngine;
 import de.todo.engine.Window;
 import de.todo.engine.entities.Camera;
 import de.todo.engine.entities.GameObject;
@@ -14,33 +13,21 @@ import de.todo.engine.scene.Scene;
 import de.todo.engine.utility.DebugStatistics;
 import org.joml.Vector2f;
 
-import java.awt.Font;
+import java.awt.*;
 
-public class Main extends Scene {
+public class GameScene extends Scene {
 
-    public static final int WINDOW_WIDTH = 1200;
-    public static final int WINDOW_HEIGHT = 700;
-    public static GameEngine ENGINE;
+    private int levelNumber = 0;
 
-    public static void main(String[] args) {
-        ENGINE = new GameEngine(
-                "Not Space Invaders",
-                WINDOW_WIDTH,
-                WINDOW_HEIGHT,
-                new Main()
-        );
-
-        ENGINE.getConfig().setTargetFps(120);
-
-        ENGINE.start();
-    }
-
-    // Class
-
+    private Level level;
     private PlayerShip playerShip;
 
+    public GameScene(int levelNumber){
+        this.levelNumber = levelNumber;
+    }
+
     @Override
-    protected void initScene(final Window.WindowDimensions windowDimensions) {
+    protected void initScene(Window.WindowDimensions windowDimensions) throws Exception {
         setActiveCamera(new Camera(0, 0));
 
         final GameObject stats = DebugStatistics.getInstance().createTextObject(new Vector2f(0, 0), new Font("Ubuntu Mono", Font.BOLD, 14), GLColor.WHITE, 4);
@@ -49,7 +36,7 @@ public class Main extends Scene {
 
         addGameObjects(
                 playerShip = new PlayerShip(hud.getLifebar()),
-                new EnemySpawner(),
+                level = new Level(levelNumber),
                 hud,
                 new StarBackground(),
                 stats
@@ -57,7 +44,7 @@ public class Main extends Scene {
     }
 
     @Override
-    public void input(final IInputState inputState) {
+    public void input(IInputState inputState) throws Exception {
         playerShip.input(inputState);
     }
 
