@@ -9,8 +9,6 @@ import java.util.function.Supplier;
 
 public class EnemySpawner extends GameObject {
 
-    public static int ALIVE = 0;
-
     // @formatter:off
     private static final Supplier<GameObject[]>[] WAVES = new Supplier[] {
             () -> new GameObject[]{
@@ -24,18 +22,17 @@ public class EnemySpawner extends GameObject {
 
     // Class
 
-    private int wave = 3;
+    private int alive = 0, wave = 3;
 
     public EnemySpawner() {
         super(MainScene.WINDOW_WIDTH, MainScene.WINDOW_HEIGHT / 2.0f);
 
-        ALIVE = 0;
         setUpdateMode(UpdateMode.ALWAYS);
     }
 
     @Override
     public void update() {
-        if (ALIVE < 1) {
+        if (alive < 1) {
             prepareWave();
 
             wave += 1;
@@ -47,7 +44,7 @@ public class EnemySpawner extends GameObject {
                 WAVES[0].get()
         );
 
-        ALIVE += 4;
+        alive += 4;
 
         if (wave > 3) {
             final Random rng = new Random();

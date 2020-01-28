@@ -23,7 +23,7 @@ public class MainScene extends Scene {
     public static final int WINDOW_WIDTH = 1200;
     public static final int WINDOW_HEIGHT = 700;
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         ResourceRepository.addRepository(MainScene.class);
 
         final GameEngine engine = new GameEngine(
