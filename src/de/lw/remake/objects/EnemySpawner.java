@@ -29,6 +29,7 @@ public class EnemySpawner extends GameObject {
     public EnemySpawner() {
         super(MainScene.WINDOW_WIDTH, MainScene.WINDOW_HEIGHT / 2.0f);
 
+        ALIVE = 0;
         setUpdateMode(UpdateMode.ALWAYS);
     }
 

@@ -17,11 +17,13 @@ import java.awt.*;
 
 public class GameScene extends Scene {
 
+    private int levelNumber = 0;
+
     private Level level;
     private PlayerShip playerShip;
 
-    public GameScene(Level level){
-        this.level = level;
+    public GameScene(int levelNumber){
+        this.levelNumber = levelNumber;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class GameScene extends Scene {
 
         addGameObjects(
                 playerShip = new PlayerShip(hud.getLifebar()),
-
+                level = new Level(levelNumber),
                 hud,
                 new StarBackground(),
                 stats

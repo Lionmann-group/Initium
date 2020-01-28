@@ -20,6 +20,7 @@ public class EnemyShip extends BaseShip {
 
     private final float shootInterval;
     private float shotTimer;
+    private boolean alive = true;
 
     public EnemyShip(final float xOffset, final float y) {
         super(MainScene.WINDOW_WIDTH + 50 + xOffset, y);
@@ -65,7 +66,16 @@ public class EnemyShip extends BaseShip {
 
     private void die() {
         EnemySpawner.ALIVE -= 1;
+        alive = false;
         cleanup();
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     private static final class EnemyShipCollider extends ObjectCollider {
