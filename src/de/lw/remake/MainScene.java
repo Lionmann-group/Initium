@@ -22,21 +22,20 @@ public class MainScene extends Scene {
 
     public static final int WINDOW_WIDTH = 1200;
     public static final int WINDOW_HEIGHT = 700;
-    public static GameEngine ENGINE;
 
     public static void main(String[] args) {
         ResourceRepository.addRepository(MainScene.class);
 
-        ENGINE = new GameEngine(
+        final GameEngine engine = new GameEngine(
                 "Not Space Invaders",
                 WINDOW_WIDTH,
                 WINDOW_HEIGHT,
                 new StartScene()
         );
 
-        ENGINE.getConfig().setTargetFps(120);
+        engine.getConfig().setTargetFps(120);
 
-        ENGINE.start();
+        engine.start();
     }
 
     // Class

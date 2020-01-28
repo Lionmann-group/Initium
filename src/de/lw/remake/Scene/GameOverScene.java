@@ -1,6 +1,7 @@
 package de.lw.remake.Scene;
 
 import de.lw.remake.MainScene;
+import de.todo.engine.GameEngine;
 import de.todo.engine.Window;
 import de.todo.engine.entities.TextObject;
 import de.todo.engine.input.IInputState;
@@ -34,7 +35,7 @@ public class GameOverScene extends Scene {
 
     @Override
     public void input(final IInputState inputState) throws Exception {
-        if (inputState.isKeyReleased(KeyState.KEY_ENTER)) MainScene.ENGINE.setScene(new MainScene());
+        if (inputState.isKeyReleased(KeyState.KEY_ENTER)) GameEngine.getInstance().setScene(new MainScene());
     }
 
 }

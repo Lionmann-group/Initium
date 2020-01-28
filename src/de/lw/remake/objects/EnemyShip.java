@@ -47,7 +47,7 @@ public class EnemyShip extends BaseShip {
 
     @Override
     public void update() {
-        if (getRelativePosition().y > Main.WINDOW_HEIGHT / 2.0f) move(new Vector2f(-128.0f, (float) (-Math.sin(position.x / 40.0f) * 128.0f)));
+        if (getRelativePosition().y > MainScene.WINDOW_HEIGHT / 2.0f) move(new Vector2f(-128.0f, (float) (-Math.sin(position.x / 40.0f) * 128.0f)));
         else move(new Vector2f(-128.0f, (float) (Math.sin(position.x / 40.0f) * 128.0f)));
 
         if (getRelativePosition().x < -50) {
