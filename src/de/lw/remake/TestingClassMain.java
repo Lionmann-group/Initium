@@ -3,6 +3,8 @@ package de.lw.remake;
 import de.lw.remake.Scene.StartScene;
 import de.todo.engine.GameEngine;
 import de.todo.engine.Window;
+import de.todo.engine.audio.AudioHandler;
+import de.todo.engine.audio.AudioTrack;
 import de.todo.engine.entities.Camera;
 import de.todo.engine.entities.GameObject;
 import de.todo.engine.input.IInputState;
@@ -21,10 +23,14 @@ public class TestingClassMain extends Scene {
 
     public static final int WINDOW_WIDTH = 1000;
     public static final int WINDOW_HEIGHT = 1000;
+    public static final Vector2f point1 = new Vector2f(250,250);
+    public static final Vector2f point2 = new Vector2f(750,750);
 
     public int spawnX = 500,spawnY = 500;
     public int movePhase;
     public TestObject testObject;
+
+    final AudioTrack track = AudioHandler.getInstance().createAudioTrack("/Music/Violet.ogg");
 
     public static void main(final String[] args) {
         ResourceRepository.addRepository(TestingClassMain.class);
@@ -46,6 +52,7 @@ public class TestingClassMain extends Scene {
     protected void initScene(Window.WindowDimensions windowDimensions) throws Exception {
         setActiveCamera(new Camera(0, 0));
 
+        AudioHandler.getInstance().playAudioTrack(track, false);
         final GameObject stats = DebugStatistics.getInstance().createTextObject(new Vector2f(0, 0), new Font("Ubuntu Mono", Font.BOLD, 14), GLColor.WHITE, 4);
 
         addGameObjects(
@@ -85,8 +92,8 @@ public class TestingClassMain extends Scene {
 
         @Override
         public void update() {
-            move(new Vector2f(movePhase,2*movePhase^movePhase));
-            movePhase++;
+
+            //movePhase++;
         }
 
     }
