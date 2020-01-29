@@ -65,7 +65,6 @@ public class EnemyShip extends BaseShip {
     }
 
     private void die() {
-        EnemySpawner.ALIVE -= 1;
         alive = false;
         cleanup();
     }
