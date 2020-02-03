@@ -1,5 +1,6 @@
 package de.lw.remake;
 
+import com.sun.jna.platform.unix.X11;
 import de.todo.engine.GameEngine;
 import de.todo.engine.Window;
 import de.todo.engine.audio.AudioHandler;
@@ -97,9 +98,9 @@ public class TestingClassMain extends Scene {
         @Override
         public void update() {
             projectileTimer++;
-            if(projectileTimer >= 70){
+            if(projectileTimer >= 20){
                 projectileTimer = 0;
-                addChildren(new TestProjectile(getPosition(),angle,this));
+                addChildren(new TestProjectile(new Vector2f(getPosition()),angle,this));
             }
         }
 
@@ -107,6 +108,7 @@ public class TestingClassMain extends Scene {
 
     private class TestProjectile extends GameObject {
 
+        int movePhaseTimer;
         int movePhase;
         float angle;
 
@@ -128,8 +130,13 @@ public class TestingClassMain extends Scene {
         }
 
         public void move() {
+            movePhaseTimer++;
+            if(movePhaseTimer >= 30){
+                movePhase++;
+                movePhaseTimer = 0;
+            }
             this.move(new Vector2f(movePhase,-0.2f*angle*movePhase));
-            movePhase++;
+
         }
     }
 
