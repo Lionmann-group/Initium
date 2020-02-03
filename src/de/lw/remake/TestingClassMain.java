@@ -84,7 +84,7 @@ public class TestingClassMain extends Scene {
     private class TestObject extends GameObject {
 
         int projectileTimer;
-        float angle;
+        float angle = -100f;
 
         public TestObject(float x, float y) {
             super(x, y);
@@ -97,6 +97,7 @@ public class TestingClassMain extends Scene {
 
         @Override
         public void update() {
+            angle = angle + 0.1f;
             projectileTimer++;
             if(projectileTimer >= 20){
                 projectileTimer = 0;
@@ -108,7 +109,6 @@ public class TestingClassMain extends Scene {
 
     private class TestProjectile extends GameObject {
 
-        int movePhaseTimer;
         int movePhase;
         float angle;
 
@@ -119,7 +119,7 @@ public class TestingClassMain extends Scene {
             setMesh(new RectangularMesh(100f, 100f));
             setRenderDefinition(new TextureRenderDefinition("/Objects/Energyball.png"));
             setLayer(1f);
-            setScale(0.1f);
+            setScale(0.3f);
             useRelativePosition(false);
 
         }
@@ -130,12 +130,8 @@ public class TestingClassMain extends Scene {
         }
 
         public void move() {
-            movePhaseTimer++;
-            if(movePhaseTimer >= 30){
-                movePhase++;
-                movePhaseTimer = 0;
-            }
-            this.move(new Vector2f(movePhase,-0.2f*angle*movePhase));
+                movePhase = movePhase + 10;
+            this.move(new Vector2f(movePhase,-0.01f*angle*movePhase));
 
         }
     }
