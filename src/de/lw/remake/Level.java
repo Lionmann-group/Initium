@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Level extends GameObject {
 
-    public boolean astroidsEnabled = true;
+    public boolean astroidsEnabled;
     private boolean lastFormationAlive;
     public int astroidSpawnSpeed = 100;
     private int astroidTimer;

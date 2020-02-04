@@ -39,7 +39,7 @@ public class GameScene extends Scene {
         addGameObjects(
                 playerShip = new PlayerShip(hud.getLifebar()),
                 level = new Level(levelNumber),
-                boss = new EnemyBoss(500,500),
+                boss = new EnemyBoss(),
                 hud,
                 new StarBackground(),
                 stats
