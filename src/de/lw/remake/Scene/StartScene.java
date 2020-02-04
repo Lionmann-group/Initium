@@ -25,7 +25,7 @@ public class StartScene extends Scene {
 
     private void initTextObjects(){
         gameName = new TextObject("Placeholder_game",new Vector2f(),RenderType.STATIC,headlineFont,GLColor.WHITE);
-        versionNumber = new TextObject("a0.1.0",new Vector2f(),RenderType.STATIC,smallFont,GLColor.WHITE);
+        versionNumber = new TextObject("a0.1.2",new Vector2f(),RenderType.STATIC,smallFont,GLColor.WHITE);
         firstOption = new TextObject("1",new Vector2f(),RenderType.STATIC,basicFont,GLColor.WHITE);
         secondOption = new TextObject("2",new Vector2f(),RenderType.STATIC,basicFont,GLColor.WHITE);
         thirdOption = new TextObject("3",new Vector2f(),RenderType.STATIC,basicFont,GLColor.WHITE);
