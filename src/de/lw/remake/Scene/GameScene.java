@@ -2,6 +2,7 @@ package de.lw.remake.Scene;
 
 import de.lw.remake.Level;
 import de.lw.remake.hud.Hud;
+import de.lw.remake.objects.EnemyBoss;
 import de.lw.remake.objects.PlayerShip;
 import de.lw.remake.objects.StarBackground;
 import de.todo.engine.Window;
@@ -21,6 +22,7 @@ public class GameScene extends Scene {
 
     private Level level;
     private PlayerShip playerShip;
+    private EnemyBoss boss;
 
     public GameScene(int levelNumber){
         this.levelNumber = levelNumber;
@@ -37,6 +39,7 @@ public class GameScene extends Scene {
         addGameObjects(
                 playerShip = new PlayerShip(hud.getLifebar()),
                 level = new Level(levelNumber),
+                boss = new EnemyBoss(500,500),
                 hud,
                 new StarBackground(),
                 stats

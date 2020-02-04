@@ -117,8 +117,10 @@ public class TestingClassMain extends Scene {
 
     private class TestProjectile extends GameObject {
 
-        int movePhase;
-        float angle;
+        private float movePhase, accelerationTimer = 0.0f;
+        private final float acceleration = -2.0f, accelerationInterval = 0.2f;
+        private float speed = 10;
+        private float angle;
 
         public TestProjectile(Vector2f position, float angle, TestObject parent) {
             super(position);
@@ -138,7 +140,16 @@ public class TestingClassMain extends Scene {
         }
 
         public void move() {
-            movePhase = movePhase + 10;
+            movePhase += 10 * Timer.getTimeDelta();
+
+            accelerationTimer += Timer.getTimeDelta();
+
+            if (accelerationTimer >= accelerationInterval) {
+                speed += acceleration * accelerationInterval;
+                accelerationTimer -= accelerationInterval;
+            }
+
+            movePhase += speed * Timer.getTimeDelta();
 
             move(new Vector2f(movePhase, -0.01f * angle * movePhase));
         }
