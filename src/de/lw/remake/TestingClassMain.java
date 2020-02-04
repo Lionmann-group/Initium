@@ -29,8 +29,6 @@ public class TestingClassMain extends Scene {
     public int spawnX = 500, spawnY = 500;
     public TestObject testObject;
 
-    private AudioTrack track;
-
     public static void main(final String[] args) {
         ResourceRepository.addRepository(TestingClassMain.class);
 
@@ -48,10 +46,10 @@ public class TestingClassMain extends Scene {
 
 
     @Override
-    protected void initScene(Window.WindowDimensions windowDimensions) throws Exception {
+    protected void initScene(final Window.WindowDimensions windowDimensions) throws Exception {
         setActiveCamera(new Camera(0, 0));
 
-        track = AudioHandler.getInstance().createAudioTrack("/Music/Violet.ogg");
+        final AudioTrack track = AudioHandler.getInstance().createAudioTrack("/Music/Violet.ogg");
 
         AudioHandler.getInstance().playAudioTrack(track, false);
 
@@ -65,7 +63,7 @@ public class TestingClassMain extends Scene {
     }
 
     @Override
-    public void input(IInputState inputState) throws Exception {
+    public void input(final IInputState inputState) throws Exception {
         if (inputState.isKeyPressed(KeyState.KEY_SPACE)) {
             testObject.setPosition(new Vector2f(spawnX, spawnY));
         }
@@ -89,10 +87,10 @@ public class TestingClassMain extends Scene {
 
     private class TestObject extends GameObject {
 
-        int projectileTimer;
-        float angle = -100f;
+        float projectileTimer = 0.0f;
+        float angle = -100.0f;
 
-        public TestObject(float x, float y) {
+        private TestObject(float x, float y) {
             super(x, y);
 
             setMesh(new RectangularMesh(100f, 100f));
@@ -104,12 +102,12 @@ public class TestingClassMain extends Scene {
         @Override
         public void update() {
             angle += 1.0f * Timer.getTimeDelta();
-            projectileTimer++;
+            projectileTimer += Timer.getTimeDelta();
 
-            if (projectileTimer >= 20) {
-                projectileTimer = 0;
+            if (projectileTimer >= 0.3f) {
+                projectileTimer -= 0.3f;
 
-                addChildren(new TestProjectile(new Vector2f(getPosition()), angle, this));
+                addChildren(new TestProjectile(new Vector2f(getPosition()), angle));
             }
         }
 
@@ -117,10 +115,10 @@ public class TestingClassMain extends Scene {
 
     private class TestProjectile extends GameObject {
 
-        int movePhase;
-        float angle;
+        private int movePhase;
+        private final float angle;
 
-        public TestProjectile(Vector2f position, float angle, TestObject parent) {
+        private TestProjectile(final Vector2f position, final float angle) {
             super(position);
             this.angle = angle;
 
@@ -129,7 +127,6 @@ public class TestingClassMain extends Scene {
             setLayer(1.0f);
             setScale(0.3f);
             useRelativePosition(false);
-
         }
 
         @Override
