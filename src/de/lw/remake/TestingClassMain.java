@@ -1,6 +1,7 @@
 package de.lw.remake;
 
 import com.sun.jna.platform.unix.X11;
+import de.lw.remake.objects.PlayerShip;
 import de.todo.engine.GameEngine;
 import de.todo.engine.Window;
 import de.todo.engine.audio.AudioHandler;
@@ -15,6 +16,7 @@ import de.todo.engine.render.mesh.RectangularMesh;
 import de.todo.engine.scene.Scene;
 import de.todo.engine.utility.DebugStatistics;
 import de.todo.engine.utility.ResourceRepository;
+import de.todo.games.tobodo.character.Player;
 import org.joml.Vector2f;
 
 import java.awt.Font;
@@ -109,7 +111,11 @@ public class TestingClassMain extends Scene {
 
     private class TestProjectile extends GameObject {
 
-        int movePhase;
+        float movePhase;
+        private int accelerationInterval = 10;
+        private int accelerationTimer;
+        float accerleration = -2f;
+        float speed = 10;
         float angle;
 
         public TestProjectile(Vector2f position, float angle, TestObject parent) {
@@ -130,7 +136,12 @@ public class TestingClassMain extends Scene {
         }
 
         public void move() {
-                movePhase = movePhase + 10;
+            accelerationTimer++;
+            if(accelerationTimer >= accelerationInterval){
+                speed = speed + accerleration;
+                accelerationTimer = 0;
+            }
+                movePhase = movePhase + speed;
             this.move(new Vector2f(movePhase,-0.01f*angle*movePhase));
 
         }
