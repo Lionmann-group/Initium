@@ -16,11 +16,9 @@ import de.todo.engine.render.mesh.RectangularMesh;
 import de.todo.engine.scene.Scene;
 import de.todo.engine.utility.DebugStatistics;
 import de.todo.engine.utility.ResourceRepository;
-import de.todo.games.tobodo.character.Player;
 import org.joml.Vector2f;
 
 import java.awt.Font;
-import java.util.ArrayList;
 
 public class TestingClassMain extends Scene {
 

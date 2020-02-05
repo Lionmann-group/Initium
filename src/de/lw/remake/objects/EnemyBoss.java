@@ -18,7 +18,7 @@ public class EnemyBoss extends BaseShip {
             MOVEMENT_TYPE_MOVING = 1,
             MOVEMENT_TYPE_TELEPORTING = 2;
 
-    private int currentMovementType = 0;
+    private int currentMovementType = 2;
     private float moveInterval = 2f;
 
     private Vector2f positionTop = new Vector2f(975,175),
@@ -30,9 +30,10 @@ public class EnemyBoss extends BaseShip {
             positionTop, positionLeft, positionRight, positionBottom,
     };
 
-    private Portal portalTop,portalRight,portalLeft,portalBottom;
     private TimedUpdate moveUpdate;
     private AnimationRenderDefinition renderDefinition;
+
+    public AnimationRenderDefinition portalRenderDefinition;
 
     public EnemyBoss() {
         super(900,350);
@@ -46,16 +47,12 @@ public class EnemyBoss extends BaseShip {
                         loadTextures("/Enemies/Remillia.gif"),8));
         setRenderDefinition(renderDefinition);
         setUpdateMode(UpdateMode.ALWAYS);
-
-        //Portals
-        portalTop = new Portal(positionTop);
-        portalLeft = new Portal(positionLeft);
-        portalRight = new Portal(positionRight);
-        portalBottom = new Portal(positionBottom);
+        portalRenderDefinition  = new AnimationRenderDefinition(Animation.
+                createAnimation(TextureFactory.getInstance().
+                        loadTextures("/Objects/Red_Portal.gif"),3));
 
         //Timer
         moveUpdate = new TimedUpdate(moveInterval, (v) -> move());
-        setChildren(portalBottom,portalLeft,portalRight,portalTop);
 
     }
 
@@ -66,7 +63,9 @@ public class EnemyBoss extends BaseShip {
             //doesn't work yet
             move(new Vector2f(500,500));
         }else if(currentMovementType == MOVEMENT_TYPE_TELEPORTING){
-
+            addChildren(new Portal(new Vector2f(getPosition()),2f ,this));
+            setPosition(randomPosition());
+            addChildren(new Portal(new Vector2f(getPosition()),2f ,this));
         }
     }
 
@@ -81,20 +80,28 @@ public class EnemyBoss extends BaseShip {
 
     private class Portal extends GameObject {
 
-        private AnimationRenderDefinition portalRenderDefinition;
+        private float lifetime;
+        private TimedUpdate lifetimeUpdate;
+        private EnemyBoss parent;
 
-        public Portal(Vector2f position) {
+        public Portal(Vector2f position, float lifetime, EnemyBoss enemyBoss) {
             super(position);
-
-            setLayer(0.4f);
+            this.parent = enemyBoss;
+            this.lifetime = lifetime;
+            setLayer(0.5f);
             setScale(1f);
-            setMesh(new SquareMesh(240));
-            portalRenderDefinition  = new AnimationRenderDefinition(Animation.
-                    createAnimation(TextureFactory.getInstance().
-                            loadTextures("/Objects/Red_Portal.gif"),8));
+            setMesh(new SquareMesh(140));
             setRenderDefinition(portalRenderDefinition);
             setUpdateMode(UpdateMode.ALWAYS);
+            useRelativePosition(false);
 
+            lifetimeUpdate = new TimedUpdate(this.lifetime, (v) -> cleanup());
+
+        }
+
+        @Override
+        public void update() {
+            lifetimeUpdate.update(super.timeDelta);
         }
     }
 
