@@ -63,9 +63,9 @@ public class EnemyBoss extends BaseShip {
             //doesn't work yet
             move(new Vector2f(500,500));
         }else if(currentMovementType == MOVEMENT_TYPE_TELEPORTING){
-            addChildren(new Portal(new Vector2f(getPosition()),2f ,this));
+            addChildren(new Portal(new Vector2f(getPosition()),0.5f ,this));
             setPosition(randomPosition());
-            addChildren(new Portal(new Vector2f(getPosition()),2f ,this));
+            addChildren(new Portal(new Vector2f(getPosition()),1.5f ,this));
         }
     }
 
